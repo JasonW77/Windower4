@@ -1,0 +1,14 @@
+# Ignore executables
+*.exe
+
+# Ignore logs and temp files
+*.log
+*.tmp
+
+# Ignore folders
+/bin/
+/obj/
+/node_modules/
+
+# Ignore user-specific VSCode settings
+.vscode/
