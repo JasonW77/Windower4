@@ -21,7 +21,7 @@ settings.xml
 WINDOWER4_settings.xml
 Windower4.code-workspace
 Windower - Shortcut.lnk
-
+!/addons/pointwatch/data/settings.xml
 # Ignore DLLs
 hook.dll
 
