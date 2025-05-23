@@ -1,0 +1,23 @@
+<?xml version="1.1" ?>
+<settings>
+    <global>
+        <x_pos>0</x_pos>
+        <y_pos>0</y_pos>
+    </global>
+    <angelaa>
+        <x_pos>1561</x_pos>
+        <y_pos>919</y_pos>
+    </angelaa>
+    <dawnfergie>
+        <x_pos>1384</x_pos>
+        <y_pos>944</y_pos>
+    </dawnfergie>
+    <hamhand>
+        <x_pos>1172</x_pos>
+        <y_pos>951</y_pos>
+    </hamhand>
+    <kaiel>
+        <x_pos>1546</x_pos>
+        <y_pos>918</y_pos>
+    </kaiel>
+</settings>

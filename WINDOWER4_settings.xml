@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<settings>
+  <autoload>
+    <addon>ConsoleBG</addon>
+    <addon>craft</addon>
+    <addon>DistancePlus</addon>
+    <addon>enternity</addon>
+    <addon>equipviewer</addon>
+    <addon>FastCS</addon>
+    <addon>invtracker</addon>
+    <addon>send</addon>
+    <addon>Treasury</addon>
+    <plugin>Config</plugin>
+    <plugin>FFXIDB</plugin>
+  </autoload>
+  <profile name="">
+    <consolekey>Insert</consolekey>
+    <uiscale>1</uiscale>
+  </profile>
+  <profile name="Uncle Awesome's(Awesome)">
+    <consolekey>Insert</consolekey>
+    <width>1920</width>
+    <height>1050</height>
+    <gamma>-1</gamma>
+    <uiscale>1</uiscale>
+    <hardwaremouse>false</hardwaremouse>
+    <alwaysenablegamepad>false</alwaysenablegamepad>
+    <args>--server 208.93.178.140 --user Hamhand --pass waters</args>
+    <executable>xiloaderv1.1.1.exe</executable>
+  </profile>
+  <profile name="Uncle Awesome's(Kaiel)">
+    <consolekey>Insert</consolekey>
+    <width>1920</width>
+    <height>1050</height>
+    <gamma>-1</gamma>
+    <uiscale>1</uiscale>
+    <hardwaremouse>false</hardwaremouse>
+    <alwaysenablegamepad>false</alwaysenablegamepad>
+    <args>--server 208.93.178.140 --user Kaiel --pass waters</args>
+    <executable>xiloaderv1.1.1.exe</executable>
+  </profile>
+  <profile name="Uncle Awesome's(AngieBaby)">
+    <consolekey>Insert</consolekey>
+    <width>1920</width>
+    <height>1050</height>
+    <gamma>-1</gamma>
+    <uiscale>1</uiscale>
+    <hardwaremouse>false</hardwaremouse>
+    <alwaysenablegamepad>false</alwaysenablegamepad>
+    <args>--server 208.93.178.140 --user ANGWATERS --pass Password1</args>
+    <executable>xiloaderv1.1.1.exe</executable>
+  </profile>
+</settings>
