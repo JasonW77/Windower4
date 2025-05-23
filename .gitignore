@@ -9,6 +9,9 @@
 /bin/
 /obj/
 /node_modules/
+/addons/
+/plugins/
+/res/
 
 # Ignore user-specific VSCode settings
 .vscode/
@@ -27,3 +30,6 @@ screenshots/
 
 # Ignore updates folder (assuming it's a folder named 'updates')
 updates/
+
+# But NOT this file
+!scripts/init.txt
