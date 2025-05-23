@@ -31,5 +31,8 @@ screenshots/
 # Ignore updates folder (assuming it's a folder named 'updates')
 updates/
 
+# Ignore everything in scripts
+scripts/*
+
 # But NOT this file
 !scripts/init.txt
