@@ -1,0 +1,29 @@
+# Ignore executables
+*.exe
+
+# Ignore logs and temp files
+*.log
+*.tmp
+
+# Ignore folders
+/bin/
+/obj/
+/node_modules/
+
+# Ignore user-specific VSCode settings
+.vscode/
+
+# Ignore user settings and workspace files
+settings.xml
+WINDOWER4_settings.xml
+Windower4.code-workspace
+Windower - Shortcut.lnk
+
+# Ignore DLLs
+hook.dll
+
+# Ignore screenshots folder (assuming it's a folder named 'screenshots')
+screenshots/
+
+# Ignore updates folder (assuming it's a folder named 'updates')
+updates/
