@@ -9,9 +9,9 @@
 /bin/
 /obj/
 /node_modules/
-/addons/
-/plugins/
-/res/
+# /addons/
+# /plugins/
+# /res/
 
 # Ignore user-specific VSCode settings
 .vscode/
