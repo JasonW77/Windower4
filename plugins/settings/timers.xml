@@ -63,5 +63,7 @@
         <SpellBuffFilter />
         <!--If true will show a font outline-->
         <Stroke>false</Stroke>
+        <DisplaySelfSingleTargetBuffs>true</DisplaySelfSingleTargetBuffs>
+        <DisplaySelfTargetAoEBuffs>true</DisplaySelfTargetAoEBuffs>
     </global>
 </settings>
