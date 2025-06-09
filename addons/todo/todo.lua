@@ -1,6 +1,6 @@
 --[[
   To-Do Addon for Windower 4
-  Author: YourName
+  Author: Unlce Awesome
   Version: 1.7
   Description:
     A simple to-do list addon that allows players to manage personal and shared tasks.
@@ -11,7 +11,7 @@
 
 _addon.name = 'todo'
 _addon.version = '1.7'
-_addon.author = 'YourName'
+_addon.author = 'Unlce Awesome'
 _addon.commands = {'todo'}
 
 -- Required Windower libraries
@@ -25,7 +25,9 @@ local defaults = {
         x = 100,
         y = 100
     },
-    visible_on_start = false, -- New setting: show window automatically on load
+    visible_on_start = false,
+    font_size = 12,
+
 }
 local settings = config.load(defaults)
 
@@ -39,7 +41,7 @@ local shared_path = windower.addon_path .. 'data/shared_tasks.txt'
 local visible = false
 local box_settings = {
     pos = { x = settings.pos.x, y = settings.pos.y },
-    text = { font = 'Arial', size = 12, alpha = 255 },
+    text = { font = 'Arial', size = settings.font_size, alpha = 255 },
     bg = { alpha = 150 },
     flags = { draggable = true },
 }
@@ -133,21 +135,32 @@ local function load_shared_tasks()
     return loaded
 end
 
--- Update the display box with current tasks, using green color for shared tasks
+-- Update the display box with colored list items for normal, shared, and completed tasks
 local function update_box()
     if not visible then return end
     local output = "To-Do List:\n"
     for i, task in ipairs(tasks) do
         local is_shared = task:sub(1, 8) == "[shared]"
+        local is_completed = task:sub(1, 4) == "[X] "
+
         if is_shared then
             local clean_task = task:sub(9)
-            output = output .. string.format("[%d] \\cs(0,255,0)%s\\cr\n", i, clean_task)
+            -- Lime Green for shared tasks
+            output = output .. string.format("[%d] \\cs(50,205,50)%s\\cr\n", i, clean_task)
+
+        elseif is_completed then
+            local clean_task = task:sub(5)
+            -- Light Green for completed tasks, include the [X] marker
+            output = output .. string.format("[%d] \\cs(70,130,180)[X] %s\\cr\n", i, clean_task)
+
         else
-            output = output .. string.format("[%d] %s\n", i, task)
+            -- Sky Blue for normal tasks
+            output = output .. string.format("[%d] \\cs(135,206,235)%s\\cr\n", i, task)
         end
     end
     box:text(output)
 end
+
 
 -- Handle addon commands entered by the user
 windower.register_event('addon command', function(cmd, ...)
@@ -189,13 +202,37 @@ windower.register_event('addon command', function(cmd, ...)
     elseif cmd == 'complete' then
         local index = tonumber(args[1])
         if index and tasks[index] then
-            tasks[index] = tasks[index] .. " ✓"
+            tasks[index] = "[X] " .. tasks[index]
             save_personal_tasks()
             update_box()
             log("Completed task: " .. tasks[index])
         else
             log("Usage: //todo complete <index>")
-        end
+    end
+
+    elseif cmd == 'uncomplete' then
+        local index = tonumber(args[1])
+        if index and tasks[index] then
+            -- Remove green [X] marker if present
+            tasks[index] = tasks[index]:gsub("^%[X%] ", "")
+            save_personal_tasks()
+            update_box()
+            log("Uncompleted task: " .. tasks[index])
+        else
+            log("Usage: //todo uncomplete <index>")
+    end
+
+    elseif cmd == 'fontsize' then
+        local size = tonumber(args[1])
+        if size and size >= 6 and size <= 48 then
+            settings.font_size = size
+            config.save(settings)
+            box:size(size)
+            update_box()
+            log("Font size set to " .. size)
+        else
+            log("Usage: //todo fontsize <6-48>")
+    end
 
     elseif cmd == 'share' then
         save_shared_tasks()
@@ -219,7 +256,7 @@ windower.register_event('addon command', function(cmd, ...)
             log("To-do list will now be hidden on load.")
         else
             log("Usage: //todo setautostart true|false")
-        end
+    end
 
     else
         -- Help menu for available commands
