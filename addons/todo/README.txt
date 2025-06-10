@@ -2,81 +2,108 @@ To-Do Addon for Windower 4
 ==========================
 
 Author: Uncle Awesome
-Version: 1.7
+Version: 1.8
 
 Description:
 ------------
-A simple to-do list addon for Final Fantasy XI using Windower 4.
-Allows players to manage personal and shared task lists with an on-screen display.
-Supports saving window position, color-coded shared tasks, and automatic display toggling per character.
+A simple, user-friendly to-do list addon for Final Fantasy XI (via Windower 4).
+Supports personal and shared task lists with a customizable, on-screen UI.
+Offers drag-and-drop window positioning, colored task types, and persistent saved states.
 
 Features:
 ---------
 - Personal tasks saved to: data/<character>/tasks.txt
 - Shared tasks saved to: data/shared_tasks.txt
-- Add, remove, complete tasks with simple chat commands
-- Shared tasks are displayed in green text
-- Window position saved and restored per character
-- Optional automatic display on login, configurable per character
-- Drag the window to reposition it; position is saved automatically
+- Add, remove, complete, uncomplete, and share tasks using chat commands
+- Tasks are color-coded by type:
+  - Normal tasks: Sky Blue (135, 206, 235)
+  - Completed tasks: Steel Blue (70, 130, 180)
+  - Shared tasks: Lime Green (50, 205, 50)
+- Shared tasks are always displayed at the top of the list
+- Automatically creates folders and saves per-character settings
+- Optional auto-display of the list when logging in
+- Font size can be changed manually
 
 Installation:
 -------------
-1. Place the `todo.lua` addon file in your Windower addons folder.
-2. Create the `data` folder inside the addon folder if it doesn't exist.
-3. The addon will automatically create per-character directories and task files as needed.
+1. Place `todo.lua` in your Windower `addons/todo/` folder.
+2. Create a `data` folder inside the addon folder if it doesn't exist.
+3. Windower will automatically create per-character directories and files on use.
 
 Usage:
 ------
-Commands are entered via chat as follows:
+Commands are entered in the game chat:
 
-//todo start
-  - Show the to-do list window.
+  //todo start
+    - Show the to-do list window and load personal tasks.
 
-//todo stop
-  - Hide the to-do list window.
+  //todo stop
+    - Hide the to-do list window.
 
-//todo add <task description>
-  - Add a new task to your personal list.
+  //todo add <task description>
+    - Add a task to your personal list.
+    Example:
+      `//todo add Farm Beastcoins in Dynamis`
 
-//todo remove <index>
-  - Remove the task at the given list index.
+  //todo remove <index>
+    - Remove the task at the given index number.
+    Example:
+      `//todo remove 2`
 
-//todo complete <index>
-  - Mark the task at the given index as completed (adds a checkmark).
+  //todo complete <index>
+    - Mark a task as completed. Adds `[X]` and colors it blue.
+    Example:
+      `//todo complete 4`
 
-//todo share
-  - Save your current task list to the global shared_tasks.txt file.
+  //todo uncomplete <index>
+    - Remove the `[X]` from a task and revert its status.
+    Example:
+      `//todo uncomplete 4`
 
-//todo loadshared
-  - Load shared tasks from shared_tasks.txt into your current list (prefixed as shared).
+  //todo share <index>
+    - Share a task to the shared list. It will appear as a green `[shared]` entry.
+    Example:
+      `//todo share 3`
 
-//todo setautostart true|false
-  - Toggle automatic showing of the to-do list window when you log in.
-    - Default is false (hidden).
-    - Setting is saved per character in settings.xml.
+  //todo fontsize <6-48>
+    - Set the font size of the to-do list text.
+    Example:
+      `//todo fontsize 16`
 
-Features Notes:
+  //todo setautostart true|false
+    - Automatically show the list on character login.
+    Example:
+      `//todo setautostart true`
+
+Color Key:
+----------
+- [shared] Task = Lime Green (50, 205, 50)
+- [X] Completed Task = Steel Blue (70, 130, 180)
+- Normal Task = Sky Blue (135, 206, 235)
+
+Behavior Notes:
 ---------------
-- Shared tasks are visually distinguished in green.
-- Window position is saved on drag and restored on login.
-- The addon automatically creates necessary folders and files if missing.
-- Personal and shared task lists are kept separate.
+- Shared tasks are automatically loaded at the top of the list when the addon is loaded.
+- Shared tasks are not duplicated if already present.
+- Tasks are saved immediately after modifications.
+- Window position is saved when moved and restored automatically.
+- The //todo loadshared command has been deprecated as shared tasks load automatically.
 
 Requirements:
 -------------
 - Windower 4
-- Lua 5.1 compatible environment (comes with Windower)
-- Default font Arial for display (can be changed in the code)
+- Lua 5.1 (included with Windower)
+- Default system font: Arial
 
 Support:
 --------
-Report bugs or request features on the addon repository or contact Uncle Awesome.
+Report issues, request features, or send suggestions to Uncle Awesome.
+(Optional: link to repository or contact info)
 
 License:
 --------
-[Insert your license here, e.g. MIT License]
+[Insert license name here, e.g., MIT License]
 
 ---
 
-Enjoy keeping track of your quests and to-do lists efficiently!
+Enjoy efficient task tracking with the To-Do Addon for Windower!
