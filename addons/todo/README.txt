@@ -2,27 +2,29 @@ To-Do Addon for Windower 4
 ==========================
 
 Author: Uncle Awesome
-Version: 1.8
+Version: 1.9
 
 Description:
 ------------
 A simple, user-friendly to-do list addon for Final Fantasy XI (via Windower 4).
-Supports personal and shared task lists with a customizable, on-screen UI.
-Offers drag-and-drop window positioning, colored task types, and persistent saved states.
+Now supports **personal and shared task lists in separate windows**, each with independent settings and titles.
+Manage tasks with customizable commands and a sleek, color-coded UI.
 
 Features:
 ---------
-- Personal tasks saved to: data/<character>/tasks.txt
-- Shared tasks saved to: data/shared_tasks.txt
+- Personal tasks saved to: `data/<character>/tasks.txt`
+- Shared tasks saved to: `data/shared_tasks.txt`
+- Personal and shared tasks are shown in separate draggable windows
 - Add, remove, complete, uncomplete, and share tasks using chat commands
+- Set custom titles for each window
+- Customize font size and save window position per character
 - Tasks are color-coded by type:
   - Normal tasks: Sky Blue (135, 206, 235)
   - Completed tasks: Steel Blue (70, 130, 180)
   - Shared tasks: Lime Green (50, 205, 50)
-- Shared tasks are always displayed at the top of the list
+- Shared tasks are always displayed in their own window
 - Automatically creates folders and saves per-character settings
 - Optional auto-display of the list when logging in
-- Font size can be changed manually
 
 Installation:
 -------------
@@ -35,45 +37,51 @@ Usage:
 Commands are entered in the game chat:
 
   //todo start
-    - Show the to-do list window and load personal tasks.
+    - Show both personal and shared to-do list windows.
 
   //todo stop
-    - Hide the to-do list window.
+    - Hide both windows.
 
-  //todo add <task description>
+  //todo add|a <task description>
     - Add a task to your personal list.
     Example:
       `//todo add Farm Beastcoins in Dynamis`
 
-  //todo remove <index>
+  //todo remove|r <index>
     - Remove the task at the given index number.
     Example:
-      `//todo remove 2`
+      `//todo r 2`
 
-  //todo complete <index>
+  //todo complete|c <index>
     - Mark a task as completed. Adds `[X]` and colors it blue.
     Example:
-      `//todo complete 4`
+      `//todo c 4`
 
-  //todo uncomplete <index>
+  //todo uncomplete|uc <index>
     - Remove the `[X]` from a task and revert its status.
     Example:
-      `//todo uncomplete 4`
+      `//todo uc 4`
 
   //todo share <index>
     - Share a task to the shared list. It will appear as a green `[shared]` entry.
     Example:
       `//todo share 3`
 
-  //todo fontsize <6-48>
-    - Set the font size of the to-do list text.
+  //todo fontsize|fs <6-48>
+    - Set the font size for both windows.
     Example:
-      `//todo fontsize 16`
+      `//todo fs 16`
 
-  //todo setautostart true|false
-    - Automatically show the list on character login.
+  //todo setautostart|as true|false
+    - Automatically show the lists on character login.
     Example:
-      `//todo setautostart true`
+      `//todo as true`
+
+  //todo title|t <personal|shared> "New Title"
+    - Set a custom title for the personal or shared list window.
+    Example:
+      `//todo t personal "Hero's Journal"`
+      `//todo t shared "Guild Missions"`
 
 Color Key:
 ----------
@@ -83,11 +91,11 @@ Color Key:
 
 Behavior Notes:
 ---------------
-- Shared tasks are automatically loaded at the top of the list when the addon is loaded.
+- Shared and personal tasks are displayed in separate windows for clarity.
 - Shared tasks are not duplicated if already present.
-- Tasks are saved immediately after modifications.
-- Window position is saved when moved and restored automatically.
-- The //todo loadshared command has been deprecated as shared tasks load automatically.
+- Tasks are saved immediately after modification.
+- Window positions, titles, and font size are saved per character.
+- The `//todo loadshared` command has been deprecated.
 
 Requirements:
 -------------
@@ -98,7 +106,7 @@ Requirements:
 Support:
 --------
 Report issues, request features, or send suggestions to Uncle Awesome.
-(Optional: link to repository or contact info)
+(Optional: link to GitHub repo or Discord)
 
 License:
 --------
