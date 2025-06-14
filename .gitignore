@@ -45,3 +45,9 @@ addons/zOldAddons
 
 # Findall data - Ifgnore data folder in findAll addon
 addons/findAll/data
+
+# Plugin_manager - ignore data file
+addons/plugin_manager/data
+
+# GearSwap - Ignore data files
+addons/GearSwap/data/
