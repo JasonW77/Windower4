@@ -36,3 +36,6 @@ scripts/*
 
 # But NOT this file
 !scripts/init.txt
+
+# ToDo addon - Ignore personal and shared task files
+addons/todo/data/
