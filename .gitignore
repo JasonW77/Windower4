@@ -39,3 +39,9 @@ scripts/*
 
 # ToDo addon - Ignore personal and shared task files
 addons/todo/data/
+
+# zOldAddons - Ignore old out of use addons
+addons/zOldAddons
+
+# Findall data - Ifgnore data folder in findAll addon
+addons/findAll/data
