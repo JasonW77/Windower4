@@ -51,3 +51,6 @@ addons/plugin_manager/data
 
 # GearSwap - Ignore data files
 addons/GearSwap/data/
+
+# exptips - Ignore the scraper
+addons/exptips/scrape_exp_data.py
