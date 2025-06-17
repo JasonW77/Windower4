@@ -15,16 +15,16 @@ Features:
 - Personal tasks saved to: `data/<character>/tasks.txt`
 - Shared tasks saved to: `data/shared_tasks.txt`
 - Personal and shared tasks are shown in separate draggable windows
+- Window positions are automatically saved per character
 - Add, remove, complete, uncomplete, and share tasks using chat commands
+- Remove tasks from the shared list with a command
 - Set custom titles for each window
-- Customize font size and save window position per character
+- Customize font size and auto-display setting
 - Tasks are color-coded by type:
   - Normal tasks: Sky Blue (135, 206, 235)
   - Completed tasks: Steel Blue (70, 130, 180)
   - Shared tasks: Lime Green (50, 205, 50)
-- Shared tasks are always displayed in their own window
 - Automatically creates folders and saves per-character settings
-- Optional auto-display of the list when logging in
 
 Installation:
 -------------
@@ -48,24 +48,29 @@ Commands are entered in the game chat:
       `//todo add Farm Beastcoins in Dynamis`
 
   //todo remove|r <index>
-    - Remove the task at the given index number.
+    - Remove the task at the given index number from your personal list.
     Example:
       `//todo r 2`
 
   //todo complete|c <index>
-    - Mark a task as completed. Adds `[X]` and colors it blue.
+    - Mark a personal task as completed. Adds `[X]` and colors it blue.
     Example:
       `//todo c 4`
 
   //todo uncomplete|uc <index>
-    - Remove the `[X]` from a task and revert its status.
+    - Remove the `[X]` from a personal task and revert its status.
     Example:
       `//todo uc 4`
 
   //todo share <index>
-    - Share a task to the shared list. It will appear as a green `[shared]` entry.
+    - Share a personal task to the shared list. It will appear as a green `[shared]` entry.
     Example:
       `//todo share 3`
+
+  //todo removeshared|rs <index>
+    - Remove a task from the shared list at the given index.
+    Example:
+      `//todo rs 2`
 
   //todo fontsize|fs <6-48>
     - Set the font size for both windows.

@@ -16,6 +16,7 @@ _addon.commands = {'todo'}
 require('logger')
 config = require('config')
 texts = require('texts')
+-- windower = require('windower')
 
 local defaults = {
     pos_personal = { x = 100, y = 100 },
@@ -26,6 +27,9 @@ local defaults = {
     title_shared = "Shared Tasks",
 }
 local settings = config.load(defaults)
+
+local last_personal = { x = settings.pos_personal.x, y = settings.pos_personal.y }
+local last_shared   = { x = settings.pos_shared.x,   y = settings.pos_shared.y   }
 
 local player_name = windower.ffxi.get_player() and windower.ffxi.get_player().name or 'default'
 local char_dir = windower.addon_path .. 'data/' .. player_name .. '/'
@@ -52,19 +56,22 @@ box_personal:hide()
 box_shared:hide()
 
 windower.register_event('prerender', function()
-    if visible then
-        local x1, y1 = box_personal:pos()
-        if x1 ~= settings.pos_personal.x or y1 ~= settings.pos_personal.y then
-            settings.pos_personal.x = x1
-            settings.pos_personal.y = y1
-            config.save(settings)
-        end
-        local x2, y2 = box_shared:pos()
-        if x2 ~= settings.pos_shared.x or y2 ~= settings.pos_shared.y then
-            settings.pos_shared.x = x2
-            settings.pos_shared.y = y2
-            config.save(settings)
-        end
+    if not visible then return end
+
+    -- Personal window ------------------------------------------------
+    local px, py = box_personal:pos()
+    if px ~= last_personal.x or py ~= last_personal.y then
+        settings.pos_personal.x, settings.pos_personal.y = px, py
+        last_personal.x,          last_personal.y        = px, py
+        config.save(settings)
+    end
+
+    -- Shared window --------------------------------------------------
+    local sx, sy = box_shared:pos()
+    if sx ~= last_shared.x or sy ~= last_shared.y then
+        settings.pos_shared.x, settings.pos_shared.y = sx, sy
+        last_shared.x,         last_shared.y         = sx, sy
+        config.save(settings)
     end
 end)
 
@@ -170,6 +177,32 @@ windower.register_event('addon command', function(cmd, ...)
             log("Usage: //todo complete <index>")
         end
 
+    elseif cmd == 'removeshared' or cmd == 'rs' then
+        local index = tonumber(args[1])
+        if index and shared_tasks[index] then
+            log("Removed shared task: " .. shared_tasks[index])
+            table.remove(shared_tasks, index)
+
+            -- Save shared tasks back to disk (removing the "[shared]" tag first)
+            local cleaned = {}
+            for _, task in ipairs(shared_tasks) do
+                table.insert(cleaned, task:sub(9))  -- remove "[shared]"
+            end
+            local f = io.open(shared_path, 'w')
+            if f then
+                for _, task in ipairs(cleaned) do
+                    f:write(task .. "\n")
+                end
+                f:close()
+            else
+                error("Could not write to shared_tasks.txt")
+            end
+
+            update_boxes()
+        else
+            log("Usage: //todo removeshared <index>")
+        end
+
     elseif cmd == 'uncomplete' or cmd == 'uc' then
         local index = tonumber(args[1])
         if index and personal_tasks[index] then
@@ -247,21 +280,10 @@ windower.register_event('addon command', function(cmd, ...)
         log("//todo [complete]|[c] <index> - mark task complete")
         log("//todo [uncomplete]|[uc] <index> - mark task incomplete")
         log("//todo [share] <index> - share task with all characters")
+        log("//todo [removeshared]|[rs] <index> - remove shared task at index")
         log("//todo [fontsize]|[fs] <6-48> - change font size")
         log("//todo [setautostart]|[as] true|false - toggle window on login")
         log("//todo [title]|[t] <personal|shared> \"New Title\" - rename window")
-
-        -- log("Commands:")
-        -- log("//todo start - show list")
-        -- log("//todo stop - hide list")
-        -- log("//todo add|a <task>")
-        -- log("//todo remove|r <index>")
-        -- log("//todo complete|c <index>")
-        -- log("//todo uncomplete|uc <index>")
-        -- log("//todo share <index>")
-        -- log("//todo fontsize|fs <6-48>")
-        -- log("//todo setautostart|as true|false")
-        -- log("//todo title|t <personal|shared> \"New Title\"")
     end
 end)
 
