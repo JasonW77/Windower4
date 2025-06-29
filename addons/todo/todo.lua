@@ -1,7 +1,7 @@
 --[[
   To-Do Addon for Windower 4
   Author: Uncle Awesome
-  Version: 1.8
+  Version: 1.9
   Description:
     A to-do list addon that displays personal and shared tasks in separate windows.
     Supports adding, removing, completing, uncompleting, and sharing tasks.
@@ -9,14 +9,13 @@
 ]]
 
 _addon.name = 'todo'
-_addon.version = '1.8'
+_addon.version = '1.9'
 _addon.author = 'Uncle Awesome'
-_addon.commands = {'todo'}
+_addon.commands = {'td'}
 
 require('logger')
 config = require('config')
 texts = require('texts')
--- windower = require('windower')
 
 local defaults = {
     pos_personal = { x = 100, y = 100 },
@@ -58,7 +57,6 @@ box_shared:hide()
 windower.register_event('prerender', function()
     if not visible then return end
 
-    -- Personal window ------------------------------------------------
     local px, py = box_personal:pos()
     if px ~= last_personal.x or py ~= last_personal.y then
         settings.pos_personal.x, settings.pos_personal.y = px, py
@@ -66,7 +64,6 @@ windower.register_event('prerender', function()
         config.save(settings)
     end
 
-    -- Shared window --------------------------------------------------
     local sx, sy = box_shared:pos()
     if sx ~= last_shared.x or sy ~= last_shared.y then
         settings.pos_shared.x, settings.pos_shared.y = sx, sy
@@ -93,13 +90,13 @@ local function save_tasks(path, task_list)
     f:close()
 end
 
-local function load_tasks(path, is_shared)
+local function load_tasks(path)
     local f = io.open(path, 'r')
     if not f then return {} end
     local loaded = {}
     for line in f:lines() do
         if line and line:match("%S") then
-            table.insert(loaded, is_shared and "[shared]" .. line or line)
+            table.insert(loaded, line)
         end
     end
     f:close()
@@ -120,8 +117,10 @@ local function update_boxes()
 
     local shared_output = settings.title_shared .. ":\n"
     for i, task in ipairs(shared_tasks) do
-        local clean_task = task:sub(9)
-        shared_output = shared_output .. string.format("[%d] \\cs(50,205,50)%s\\cr\n", i, clean_task)
+        local is_completed = task:sub(1, 4) == "[X] "
+        local clean_task = is_completed and task:sub(5) or task
+        local color = is_completed and "\\cs(70,130,180)[X] " or "\\cs(50,205,50)"
+        shared_output = shared_output .. string.format("[%d] %s%s\\cr\n", i, color, clean_task)
     end
     box_shared:text(shared_output)
 end
@@ -131,8 +130,8 @@ windower.register_event('addon command', function(cmd, ...)
     cmd = cmd and cmd:lower() or nil
 
     if cmd == 'start' then
-        personal_tasks = load_tasks(char_file, false)
-        shared_tasks = load_tasks(shared_path, true)
+        personal_tasks = load_tasks(char_file)
+        shared_tasks = load_tasks(shared_path)
         visible = true
         box_personal:show()
         box_shared:show()
@@ -152,66 +151,82 @@ windower.register_event('addon command', function(cmd, ...)
             update_boxes()
             log("Added task: " .. task)
         else
-            log("Usage: //todo add <task>")
+            log("Usage: //td add <task>")
+        end
+
+    elseif cmd == 'addshared' or cmd == 'as' then
+        local task = table.concat(args, ' ')
+        if task ~= '' then
+            table.insert(shared_tasks, task)
+            save_tasks(shared_path, shared_tasks)
+            update_boxes()
+            log("Added shared task: " .. task)
+        else
+            log("Usage: //td addshared <task>")
         end
 
     elseif cmd == 'remove' or cmd == 'r' then
         local index = tonumber(args[1])
         if index and personal_tasks[index] then
-            log("Removed task: " .. personal_tasks[index])
             table.remove(personal_tasks, index)
             save_tasks(char_file, personal_tasks)
             update_boxes()
         else
-            log("Usage: //todo remove <index>")
-        end
-
-    elseif cmd == 'complete' or cmd == 'c' then
-        local index = tonumber(args[1])
-        if index and personal_tasks[index] then
-            personal_tasks[index] = "[X] " .. personal_tasks[index]
-            save_tasks(char_file, personal_tasks)
-            update_boxes()
-            log("Completed task: " .. personal_tasks[index])
-        else
-            log("Usage: //todo complete <index>")
+            log("Usage: //td remove <index>")
         end
 
     elseif cmd == 'removeshared' or cmd == 'rs' then
         local index = tonumber(args[1])
         if index and shared_tasks[index] then
-            log("Removed shared task: " .. shared_tasks[index])
             table.remove(shared_tasks, index)
-
-            -- Save shared tasks back to disk (removing the "[shared]" tag first)
-            local cleaned = {}
-            for _, task in ipairs(shared_tasks) do
-                table.insert(cleaned, task:sub(9))  -- remove "[shared]"
-            end
-            local f = io.open(shared_path, 'w')
-            if f then
-                for _, task in ipairs(cleaned) do
-                    f:write(task .. "\n")
-                end
-                f:close()
-            else
-                error("Could not write to shared_tasks.txt")
-            end
-
+            save_tasks(shared_path, shared_tasks)
             update_boxes()
         else
-            log("Usage: //todo removeshared <index>")
+            log("Usage: //td removeshared <index>")
+        end
+
+    elseif cmd == 'complete' or cmd == 'c' then
+        local index = tonumber(args[1])
+        if index and personal_tasks[index] and not personal_tasks[index]:match("^%[X%] ") then
+            personal_tasks[index] = "[X] " .. personal_tasks[index]
+            save_tasks(char_file, personal_tasks)
+            update_boxes()
+            log("Completed task: " .. personal_tasks[index])
+        else
+            log("Usage: //td complete <index>")
+        end
+
+    elseif cmd == 'completeshared' or cmd == 'cs' then
+        local index = tonumber(args[1])
+        if index and shared_tasks[index] and not shared_tasks[index]:match("^%[X%] ") then
+            shared_tasks[index] = "[X] " .. shared_tasks[index]
+            save_tasks(shared_path, shared_tasks)
+            update_boxes()
+            log("Completed shared task: " .. shared_tasks[index])
+        else
+            log("Usage: //td completeshared <index>")
         end
 
     elseif cmd == 'uncomplete' or cmd == 'uc' then
         local index = tonumber(args[1])
-        if index and personal_tasks[index] then
-            personal_tasks[index] = personal_tasks[index]:gsub("^%[X%] ", "")
+        if index and personal_tasks[index] and personal_tasks[index]:match("^%[X%] ") then
+            personal_tasks[index] = personal_tasks[index]:sub(5)
             save_tasks(char_file, personal_tasks)
             update_boxes()
             log("Uncompleted task: " .. personal_tasks[index])
         else
-            log("Usage: //todo uncomplete <index>")
+            log("Usage: //td uncomplete <index>")
+        end
+
+    elseif cmd == 'uncompleteshared' or cmd == 'ucs' then
+        local index = tonumber(args[1])
+        if index and shared_tasks[index] and shared_tasks[index]:match("^%[X%] ") then
+            shared_tasks[index] = shared_tasks[index]:sub(5)
+            save_tasks(shared_path, shared_tasks)
+            update_boxes()
+            log("Uncompleted shared task: " .. shared_tasks[index])
+        else
+            log("Usage: //td uncompleteshared <index>")
         end
 
     elseif cmd == 'fontsize' or cmd == 'fs' then
@@ -224,23 +239,21 @@ windower.register_event('addon command', function(cmd, ...)
             update_boxes()
             log("Font size set to " .. size)
         else
-            log("Usage: //todo fontsize <6-48>")
+            log("Usage: //td fontsize <6-48>")
         end
 
     elseif cmd == 'share' then
         local index = tonumber(args[1])
         if index and personal_tasks[index] then
             local task = personal_tasks[index]:gsub("^%[X%] ", "")
-            local f = io.open(shared_path, 'a')
-            if not f then error("Could not write to shared_tasks.txt") end
-            f:write(task .. "\n")
-            f:close()
-            log("Shared task: " .. task)
+            table.insert(shared_tasks, task)
+            save_tasks(shared_path, shared_tasks)
+            update_boxes()
         else
-            log("Usage: //todo share <index>")
+            log("Usage: //td share <index>")
         end
 
-    elseif cmd == 'setautostart' or cmd == 'as' then
+    elseif cmd == 'setautostart' or cmd == 'sas' then
         local val = args[1]
         if val == 'true' then
             settings.visible_on_start = true
@@ -251,7 +264,7 @@ windower.register_event('addon command', function(cmd, ...)
             config.save(settings)
             log("To-do windows will now be hidden on login.")
         else
-            log("Usage: //todo setautostart true|false")
+            log("Usage: //td setautostart true|false")
         end
 
     elseif cmd == 'title' or cmd == 't' then
@@ -268,28 +281,31 @@ windower.register_event('addon command', function(cmd, ...)
             update_boxes()
             log("Shared title set to: " .. title)
         else
-            log("Usage: //todo title <personal|shared> \"New Title\"")
+            log("Usage: //td title <personal|shared> \"New Title\"")
         end
 
     else
         log("Commands:")
-        log("//todo [start] - show list")
-        log("//todo [stop] - hide list")
-        log("//todo [add]|[a] <task> - add new task")
-        log("//todo [remove]|[r] <index> - remove task at index")
-        log("//todo [complete]|[c] <index> - mark task complete")
-        log("//todo [uncomplete]|[uc] <index> - mark task incomplete")
-        log("//todo [share] <index> - share task with all characters")
-        log("//todo [removeshared]|[rs] <index> - remove shared task at index")
-        log("//todo [fontsize]|[fs] <6-48> - change font size")
-        log("//todo [setautostart]|[as] true|false - toggle window on login")
-        log("//todo [title]|[t] <personal|shared> \"New Title\" - rename window")
+        log("//td [start] - show list")
+        log("//td [stop] - hide list")
+        log("//td [add]|[a] <task> - add new task")
+        log("//td [remove]|[r] <index> - remove task at index")
+        log("//td [complete]|[c] <index> - mark task complete")
+        log("//td [uncomplete]|[uc] <index> - mark task incomplete")
+        log("//td [share] <index> - share task with all characters")
+        log("//td [addshared]|[as] <task> - add shared task")
+        log("//td [removeshared]|[rs] <index> - remove shared task at index")
+        log("//td [completeshared]|[cs] <index> - mark shared task complete")
+        log("//td [uncompleteshared]|[ucs] <index> - mark shared task incomplete")
+        log("//td [fontsize]|[fs] <6-48> - change font size")
+        log("//td [setautostart]|[sas] true|false - toggle window on login")
+        log("//td [title]|[t] <personal|shared> \"New Title\" - rename window")
     end
 end)
 
 if settings.visible_on_start then
-    personal_tasks = load_tasks(char_file, false)
-    shared_tasks = load_tasks(shared_path, true)
+    personal_tasks = load_tasks(char_file)
+    shared_tasks = load_tasks(shared_path)
     visible = true
     box_personal:show()
     box_shared:show()
