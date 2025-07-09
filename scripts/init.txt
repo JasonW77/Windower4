@@ -78,3 +78,4 @@ lua load fastCS
 config FrameRateDivisor 1
 //pw pos 19 0
 //pw size 9
+ev position 1600 905
