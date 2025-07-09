@@ -3,7 +3,7 @@
 _addon.name    = 'exptips'
 _addon.version = '1.1'
 _addon.author  = 'Uncle Awesome'
-_addon.commands = {'exptips'}
+_addon.commands = {'xpt'}
 
 require('logger')
 
@@ -84,20 +84,81 @@ end
 -- ============================================================================
 --  Command handler
 -- ============================================================================
-windower.register_event('addon command', function(arg1)
+windower.register_event('addon command', function(arg1, ...)
+    local args = {...}
     local level
-    if arg1 and arg1 ~= '' then
-        level = tonumber(arg1)
-        if not level then
-            windower.add_to_chat(123, 'Usage: //exptips <level>  (example: //exptips 56)')
-            return
-        end
-    else
+
+    if arg1 == nil or arg1 == '' then
+        -- No argument: use player's level
         level = get_player_level()
         if not level then
-            windower.add_to_chat(123, 'Could not detect your level. Use: //exptips <level>')
+            windower.add_to_chat(123, 'Could not detect your level. Use: //xpt <level>')
             return
         end
+        show_matches(level)
+
+    elseif arg1:lower() == 'help' then
+        windower.add_to_chat(207, 'Exptips help:')
+        windower.add_to_chat(207, '  //xpt               Shows EXP camps for your current level')
+        windower.add_to_chat(207, '  //xpt <level>       Shows EXP camps for that level (e.g., //xpt 56)')
+        windower.add_to_chat(207, '  //xpt monster <mob> EXP camps with that monster (e.g., //xpt monster colibri)')
+        windower.add_to_chat(207, '  //xpt help          Displays this help message')
+
+        -- # TODO: windower.add_to_chat(207, '  //xpt zone <zone>   → EXP camps in that zone')
+
+        -- # TODO: Specify the monster type, i.e. RoE quest types. arcana, birds, etc...
+    elseif arg1:lower() == 'monster' and args[1] then
+        local query = table.concat(args, ' '):lower()
+        local matches = {}
+
+        for _, entry in ipairs(exp_data) do
+            if entry.monsters then
+                for _, monster in ipairs(entry.monsters) do
+                    if monster:lower():find(query) then
+                        table.insert(matches, entry)
+                        break
+                    end
+                end
+            end
+        end
+
+        if #matches == 0 then
+            windower.add_to_chat(207, ("No EXP camps found for monster: %s"):format(query))
+        else
+            windower.add_to_chat(207, ("EXP Camps with monster: %s"):format(query))
+            for _, match in ipairs(matches) do
+                local line = string.format("[%s] (%s): %s", match.zone or "Unknown", match.camp_level or "?", match.notes or "")
+                windower.add_to_chat(200, line)
+                if match.monsters and #match.monsters > 0 then
+                    windower.add_to_chat(001, "  Monsters: " .. table.concat(match.monsters, ", "))
+                end
+            end
+        end
+
+    else
+        level = tonumber(arg1)
+        if not level then
+            windower.add_to_chat(123, 'Invalid level. Usage: //xpt <level>  (example: //xpt 56)')
+            return
+        end
+        show_matches(level)
     end
-    show_matches(level)
 end)
+
+-- windower.register_event('addon command', function(arg1)
+--     local level
+--     if arg1 and arg1 ~= '' then
+--         level = tonumber(arg1)
+--         if not level then
+--             windower.add_to_chat(123, 'Usage: //xpt <level>  (example: //xpt 56)')
+--             return
+--         end
+--     else
+--         level = get_player_level()
+--         if not level then
+--             windower.add_to_chat(123, 'Could not detect your level. Use: //xpt <level>')
+--             return
+--         end
+--     end
+--     show_matches(level)
+-- end)
