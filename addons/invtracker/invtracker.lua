@@ -548,41 +548,58 @@ function print_bag(config, bag, max)
 end
 
 function sort_table(bag)
-    if (settings.slotImage.sort) then
-        table.sort(bag, function(a,b)
-            if (a.status ~= b.status) then
-                return a.status > b.status
+    if not settings.slotImage.sort then return end
+
+    table.sort(bag, function(a, b)
+        -- First: sort by status if not equal
+        if a.status ~= b.status then
+            return a.status > b.status
+        end
+
+        -- Check both items have valid counts and valid res.items entries
+        local a_item = a.id and res.items[a.id]
+        local b_item = b.id and res.items[b.id]
+
+        if a.count > 0 and b.count > 0 and a_item and b_item and a_item.stack and b_item.stack then
+            local full_stack_a = a_item.stack - a.count
+            local full_stack_b = b_item.stack - b.count
+
+            if full_stack_a ~= full_stack_b then
+                return full_stack_a < full_stack_b
             end
-            if (a.count > 0 and b.count > 0) then
-                full_stack_a = res.items[a.id].stack - a.count
-                full_stack_b = res.items[b.id].stack - b.count
-                if (full_stack_a ~= full_stack_b) then
-                    return full_stack_a < full_stack_b
-                end
-            end
-            return a.count > b.count
-        end)
-    end
+        end
+
+        -- Default: higher count first
+        return a.count > b.count
+    end)
 end
+
 
 function print_item(config, item, last_index)
     local s = settings.slotImage
-    if (item.status == DEFAULT_ITEM_STATUS) then
-        if (item.count == res.items[item.id].stack) then
-            print_slot(s.status.fullStack,config.maxColumns,last_index)
+
+    if item.status == DEFAULT_ITEM_STATUS then
+        local item_data = item.id and res.items[item.id]
+        if item_data and item_data.stack and item.count == item_data.stack then
+            print_slot(s.status.fullStack, config.maxColumns, last_index)
         else
-            print_slot(s.status.default,config.maxColumns,last_index)
+            print_slot(s.status.default, config.maxColumns, last_index)
         end
-    elseif (item.status == EQUIPPED_ITEM_STATUS) then
-        print_slot(s.status.equipped,config.maxColumns,last_index)
-    elseif (item.status == LINKSHELL_EQUIPPED_ITEM_STATUS) then
-        print_slot(s.status.linkshellEquipped,config.maxColumns,last_index)
-    elseif (item.status == BAZAAR_ITEM_STATUS) then
-        print_slot(s.status.bazaar,config.maxColumns,last_index)
+
+    elseif item.status == EQUIPPED_ITEM_STATUS then
+        print_slot(s.status.equipped, config.maxColumns, last_index)
+
+    elseif item.status == LINKSHELL_EQUIPPED_ITEM_STATUS then
+        print_slot(s.status.linkshellEquipped, config.maxColumns, last_index)
+
+    elseif item.status == BAZAAR_ITEM_STATUS then
+        print_slot(s.status.bazaar, config.maxColumns, last_index)
+
     else
-        print_slot(s.status.empty,config.maxColumns,last_index)
+        print_slot(s.status.empty, config.maxColumns, last_index)
     end
 end
+
 
 function print_slot(status, max_columns, last_index)
     update_coordinates()

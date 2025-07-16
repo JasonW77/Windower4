@@ -2248,12 +2248,20 @@ function check_ws_acc()
 end
 
 function is_dual_wielding()
-	if ((player.equipment.main and not (player.equipment.sub == 'empty' or player.equipment.sub:contains('Grip') or player.equipment.sub:contains('Strap') or res.items[item_name_to_id(player.equipment.sub)].shield_size))) then
-		return true
-	else
-		return false
+	local sub = player.equipment.sub
+
+	if sub and sub ~= 'empty' and not sub:contains('Grip') and not sub:contains('Strap') then
+		local sub_id = item_name_to_id(sub)
+		local sub_item = sub_id and res.items[sub_id]
+
+		if not (sub_item and sub_item.shield_size) then
+			return true
+		end
 	end
+
+	return false
 end
+
 
 function is_fencing()
 	if main_weapon_is_one_handed() and (player.equipment.sub == 'empty' or res.items[item_name_to_id(player.equipment.sub)].shield_size) then
@@ -2264,9 +2272,20 @@ function is_fencing()
 end
 
 function main_weapon_is_one_handed()
-	if player.equipment.main == nil or player.equipment.main == 'empty' then return false end
-	return data.skills.one_handed_combat:contains(res.items[item_name_to_id(player.equipment.main)].skill) or false
+	if not player.equipment.main or player.equipment.main == 'empty' then
+		return false
+	end
+
+	local main_id = item_name_to_id(player.equipment.main)
+	local main_item = main_id and res.items[main_id]
+
+	if main_item and main_item.skill then
+		return data.skills.one_handed_combat:contains(main_item.skill)
+	end
+
+	return false
 end
+
 
 -- Generic combat form handling
 function update_combat_form()
