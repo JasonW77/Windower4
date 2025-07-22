@@ -22,6 +22,8 @@ return {
   },
 ["slip 02"] = {
   },
+["slip 33"] = {
+  },
 ["recycle"] = {
   },
 ["wardrobe4"] = {
@@ -31,6 +33,8 @@ return {
 ["wardrobe"] = {
   },
 ["slip 25"] = {
+  },
+["slip 32"] = {
   },
 ["slip 04"] = {
   },
