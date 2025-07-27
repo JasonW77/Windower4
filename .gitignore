@@ -44,10 +44,10 @@ addons/todo/data/
 addons/zOldAddons
 
 # Findall data - Ifgnore data folder in findAll addon
-addons/findAll/data
+addons/findAll/data/
 
 # Plugin_manager - ignore data file
-addons/plugin_manager/data
+addons/plugin_manager/data/
 
 # GearSwap - Ignore data files
 addons/GearSwap/data/
@@ -57,6 +57,3 @@ addons/exptips/scrape_exp_data.py
 
 # Equipviewer
 addons/equipviewer/icons/
-
-# Findall
-addons/findAll/data/
