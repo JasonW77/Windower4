@@ -54,3 +54,6 @@ addons/GearSwap/data/
 
 # exptips - Ignore the scraper
 addons/exptips/scrape_exp_data.py
+
+# Equipviewer
+addons/equipviewer/icons
