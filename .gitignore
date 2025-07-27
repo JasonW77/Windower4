@@ -56,4 +56,7 @@ addons/GearSwap/data/
 addons/exptips/scrape_exp_data.py
 
 # Equipviewer
-addons/equipviewer/icons
+addons/equipviewer/icons/
+
+# Findall
+addons/findAll/data/
