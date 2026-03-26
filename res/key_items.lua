@@ -2985,6 +2985,8 @@ return {
     [3106] = {id=3106,en="♪Ixion companion",ja="♪イクシオン",category="Mounts"},
     [3107] = {id=3107,en="♪Phuabo companion",ja="♪フワボ",category="Mounts"},
     [3108] = {id=3108,en="♪Craklaw companion",ja="♪クラックロー",category="Mounts"},
+    [3109] = {id=3109,en="♪Alicorn companion",ja="♪アリコーン",category="Mounts"},
+    [3110] = {id=3110,en="♪Bubble Crab companion",ja="♪バブルクラブ",category="Mounts"},
     [3136] = {id=3136,en="sheet of Shadow Lord tunes",ja="オーケストリオン譜：闇の王",category="Permanent Key Items"},
     [3137] = {id=3137,en="mystical canteen",ja="チカラを閉じ込めた飯盒",category="Temporary Key Items"},
     [3138] = {id=3138,en="Ygnas's insignia",ja="ユグナスの紹介状",category="Permanent Key Items"},
@@ -3210,6 +3212,7 @@ return {
     [3358] = {id=3358,en="Apollyon verification key",ja="アポリオン錬炉認証キー",category="Permanent Key Items"},
     [3359] = {id=3359,en="Temenos verification key",ja="テメナス錬炉認証キー",category="Permanent Key Items"},
     [3360] = {id=3360,en="sheet of divine tunes",ja="オーケストリオン譜：神威",category="Permanent Key Items"},
+    [3361] = {id=3361,en="cipher bracelet",ja="盟環の腕輪",category="Permanent Key Items"},
     [3362] = {id=3362,en="Shami's key",ja="シャミの鍵",category="Temporary Key Items"},
     [3363] = {id=3363,en="sheet of fishing tunes",ja="オーケストリオン譜：漁村",category="Permanent Key Items"},
     [3364] = {id=3364,en="Delineated Grace",ja="的中のグレース",category="Permanent Key Items"},
@@ -3220,17 +3223,22 @@ return {
     [3369] = {id=3369,en="vision of a dreamy forest",ja="まどろむモリの夢",category="Temporary Key Items"},
     [3370] = {id=3370,en="vision of strange ruins",ja="遺跡漂うソラの夢",category="Temporary Key Items"},
     [3371] = {id=3371,en="vision of anger",ja="憎悪するオウの夢",category="Temporary Key Items"},
+    [3372] = {id=3372,en="Mog Kupon A-AF+3",ja="クーポンA-AF+3",category="Temporary Key Items"},
+    [3373] = {id=3373,en="Mog Kupon A-Rel+3",ja="クーポンA-Rel+3",category="Temporary Key Items"},
+    [3374] = {id=3374,en="Mog Kupon A-Emp+2",ja="クーポンA-Emp+2",category="Temporary Key Items"},
 }, {"id", "en", "ja", "category"}
 
 --[[
-Copyright © 2013-2025, Windower
+Copyright 2013-2026 Windower
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
-    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-    * Neither the name of Windower nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL Windower BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ]]

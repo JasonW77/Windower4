@@ -3333,30 +3333,27 @@ return {
     [3960] = {id=3960,en="Predatory Glare",ja="プレダトリグレア"},
     [3961] = {id=3961,en="Hoof Volley",ja="フーフボレー"},
     [3962] = {id=3962,en="Nihility Song",ja="ニヒリティソング"},
-    [3968] = {id=3968,en="Feather Storm",ja="羽根吹雪"},
-    [3969] = {id=3969,en="Double Kick",ja="飛燕双脚"},
-    [3970] = {id=3970,en="Parry",ja="受け流し"},
-    [3971] = {id=3971,en="Sweep",ja="草払い"},
-    [3972] = {id=3972,en="Howl",ja="雄叫び"},
-    [3973] = {id=3973,en="Dark Invocation",ja="闇の呪詛"},
-    [3974] = {id=3974,en="Kamaitachi",ja="鎌鼬"},
-    [3975] = {id=3975,en="Shirahadori",ja="白羽取り"},
-    [3976] = {id=3976,en="Vorticose Sands",ja="ヴォーティコスサンズ"},
-    [3977] = {id=3977,en="Aero IV",ja="エアロIV"},
-    [3978] = {id=3978,en="Predator Claws",ja="プレデタークロー"},
-    [3979] = {id=3979,en="Wind Blade",ja="ウインドブレード"},
-    [3980] = {id=3980,en="Aerial Blast",ja="エリアルブラスト"},
-    [4032] = {id=4032,en="Frogkick",ja="フロッグキック"},
-    [4033] = {id=4033,en="Spore",ja="スポア"},
-    [4034] = {id=4034,en="Queasyshroom",ja="マヨイタケ"},
-    [4035] = {id=4035,en="Numbshroom",ja="シビレタケ"},
-    [4036] = {id=4036,en="Shakeshroom",ja="オドリタケ"},
-    [4037] = {id=4037,en="Silence Gas",ja="サイレスガス"},
-    [4038] = {id=4038,en="Dark Spore",ja="ダークスポア"},
-    [4039] = {id=4039,en="Frogkick",ja="フロッグキック"},
-    [4041] = {id=4041,en="Queasyshroom",ja="マヨイタケ"},
-    [4042] = {id=4042,en="Numbshroom",ja="シビレタケ"},
-    [4043] = {id=4043,en="Shakeshroom",ja="オドリタケ"},
+    [3968] = {id=3968,en="Glutinous Dart",ja="グルーティナスダート"},
+    [3969] = {id=3969,en="Death Spin",ja="デススピン"},
+    [3970] = {id=3970,en="Velkkan Pygmachia",ja="ヴェルクピグマキア"},
+    [3971] = {id=3971,en="Saurian Slide",ja="サウリアンスライド"},
+    [3972] = {id=3972,en="Jungle Wallop",ja="ジャングルワーラップ"},
+    [3973] = {id=3973,en="Glutinous Dart",ja="グルーティナスダート"},
+    [3974] = {id=3974,en="Death Spin",ja="デススピン"},
+    [3975] = {id=3975,en="Velkkan Pygmachia",ja="ヴェルクピグマキア"},
+    [3976] = {id=3976,en="Saurian Swamp",ja="サウリアンスワンプ"},
+    [3977] = {id=3977,en="Jungle Hoodoo",ja="ジャングルフードゥー"},
+    [3978] = {id=3978,en="Velkkian Ambush",ja="ヴェルクアンブッシュ"},
+    [3979] = {id=3979,en="Galumph",ja="ガランフ"},
+    [3980] = {id=3980,en="Coming Through!",ja="カミングスルー"},
+    [3981] = {id=3981,en="Merciless Mauling",ja="マーセレスマウリング"},
+    [3982] = {id=3982,en="Croctastrophe",ja="クロックタストロフィー"},
+    [3983] = {id=3983,en="Sovereign Impact",ja="ソベランイーディクト"},
+    [3984] = {id=3984,en="Noblesse Oblige",ja="ノブレスオブリージュ"},
+    [4032] = {id=4032,en="Drill Branch",ja="ドリルブランチ"},
+    [4033] = {id=4033,en="Pinecone Bomb",ja="まつぼっくり爆弾"},
+    [4034] = {id=4034,en="Storm",ja="パレンストーム"},
+    [4035] = {id=4035,en="Chelate",ja="チェレート"},
     [4096] = {id=4096,en="Pain Sync",ja="痛覚同化"},
     [4097] = {id=4097,en="View Sync",ja="風景同化"},
     [4098] = {id=4098,en="Blessing Sync",ja="福音同化"},
@@ -3633,17 +3630,21 @@ return {
     [4403] = {id=4403,en="Muso Munen",ja="夢想無念"},
     [4404] = {id=4404,en="Realm Razer",ja="レルムレイザー"},
     [4405] = {id=4405,en="Perdition",ja="パーディション"},
+    [4406] = {id=4406,en="Meikyo Shisui",ja="明鏡止水"},
+    [4407] = {id=4407,en="Tropic Tenor",ja="トロピカルテノール"},
 }, {"id", "en", "ja", "skillchain_a", "skillchain_b", "skillchain_c"}
 
 --[[
-Copyright © 2013-2025, Windower
+Copyright 2013-2026 Windower
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
-    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-    * Neither the name of Windower nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL Windower BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ]]

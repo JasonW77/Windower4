@@ -1284,20 +1284,27 @@ function actual_cost(spell)
 end
 
 function check_nuke()
-	if state.AutoNukeMode.value and player.target.type == "MONSTER" then
-		local spell = res.spells:with('name',autonuke)
-		local spell_recasts = windower.ffxi.get_spell_recasts()
-		if spell_recasts[spell.id] < spell_latency then
-			windower.chat.input('/ma '..autonuke..' <t>')
-			tickdelay = os.clock() + 1.5
-			return true
-		else
-			return false
-		end
-	else
-		return false
-	end
+    if state.AutoNukeMode.value and player.target.type == "MONSTER" then
+        if not autonuke then
+            return false
+        end
+
+        local spell = res.spells:with('name', autonuke)
+        if not spell then
+            return false
+        end
+
+        local spell_recasts = windower.ffxi.get_spell_recasts()
+        if spell_recasts[spell.id] < spell_latency then
+            windower.chat.input('/ma "' .. autonuke .. '" <t>')
+            tickdelay = os.clock() + 1.5
+            return true
+        end
+    end
+
+    return false
 end
+
 
 function check_samba()
 	if not (buffactive['Haste Samba'] or buffactive['Drain Samba'] or buffactive['Aspir Samba']) and windower.ffxi.get_ability_recasts()[216] and windower.ffxi.get_ability_recasts()[216] < latency and state.AutoSambaMode.value ~= 'Off' and player.tp > 400 then

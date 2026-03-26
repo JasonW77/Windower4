@@ -64,7 +64,7 @@ return {
     [61] = {id=61,en="Dimidiation",ja="デミディエーション",element=6,icon_id=602,prefix="/weaponskill",range=2,skill=4,skillchain_a="Light",skillchain_b="Fragmentation",skillchain_c="",targets=32},
     [62] = {id=62,en="Fimbulvetr",ja="フィンブルヴェト",element=6,icon_id=602,prefix="/weaponskill",range=2,skill=4,skillchain_a="Detonation",skillchain_b="Compression",skillchain_c="Distortion",targets=32},
     [64] = {id=64,en="Raging Axe",ja="レイジングアクス",element=6,icon_id=605,prefix="/weaponskill",range=2,skill=5,skillchain_a="Detonation",skillchain_b="Impaction",skillchain_c="",targets=32},
-    [65] = {id=65,en="Smash Axe",ja="スマッシュ",element=4,icon_id=606,prefix="/weaponskill",range=2,skill=5,skillchain_a="Impaction",skillchain_b="Reverberation",skillchain_c="",targets=32},
+    [65] = {id=65,en="Smash Axe",ja="スマッシュ",element=4,icon_id=606,prefix="/weaponskill",range=2,skill=5,skillchain_a="Induration",skillchain_b="Reverberation",skillchain_c="",targets=32},
     [66] = {id=66,en="Gale Axe",ja="ラファールアクス",element=2,icon_id=607,prefix="/weaponskill",range=2,skill=5,skillchain_a="Detonation",skillchain_b="",skillchain_c="",targets=32},
     [67] = {id=67,en="Avalanche Axe",ja="アバランチアクス",element=6,icon_id=605,prefix="/weaponskill",range=2,skill=5,skillchain_a="Scission",skillchain_b="Impaction",skillchain_c="",targets=32},
     [68] = {id=68,en="Spinning Axe",ja="スピニングアクス",element=6,icon_id=605,prefix="/weaponskill",range=2,skill=5,skillchain_a="Liquefaction",skillchain_b="Scission",skillchain_c="Impaction",targets=32},
@@ -245,14 +245,16 @@ return {
 }, {"id", "en", "ja", "element", "icon_id", "prefix", "range", "skill", "skillchain_a", "skillchain_b", "skillchain_c", "targets"}
 
 --[[
-Copyright © 2013-2025, Windower
+Copyright 2013-2026 Windower
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
-    * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-    * Neither the name of Windower nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL Windower BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ]]
