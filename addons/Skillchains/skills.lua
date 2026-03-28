@@ -306,7 +306,7 @@ skills.spells = {
     [650] = {en='Seedspray',skillchain={'Induration','Detonation'}},
     [652] = {en='Spiral Spin',skillchain={'Transfixion'}},
     [653] = {en='Asuran Claws',skillchain={'Liquefaction','Impaction'}},
-    [654] = {en='Sub\-zero Smash',skillchain={'Fragmentation'}},
+    [654] = {en='Sub-zero Smash',skillchain={'Fragmentation'}},
     [665] = {en='Final Sting',skillchain={'Fusion'}},
     [666] = {en='Goblin Rush',skillchain={'Fusion','Impaction'}},
     [667] = {en='Vanity Dive',skillchain={'Transfixion','Scission'}},

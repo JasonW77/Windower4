@@ -22,11 +22,11 @@ function check_item(name, silent)
     local name = windower.convert_auto_trans(name):lower()
     local item = get_item_res(name)
     if not item then
-        windower.add_to_chat(207, '%s: "%s" not a valid item name.':format(_addon.name, name))
+        windower.add_to_chat(207, ('(%s: "%s" not a valid item name.)'):format(_addon.name, name))
     else
         sales_que[item.id] = true
         if silent then return end
-        windower.add_to_chat(207, '%s: "%s" added to sales queue.':format(_addon.name, item.en))
+        windower.add_to_chat(207, ('%s: "%s" added to sales queue.'):format(_addon.name, item.en))
     end
 end
 
@@ -41,7 +41,7 @@ function sell_all_items()
     end
     sales_que = {}
     if num > 0 then
-        windower.add_to_chat(207, '%s: Selling %d items.':format(_addon.name, num))
+        windower.add_to_chat(207, ('%s: Selling %d items.'):format(_addon.name, num))
     end
 end
 
@@ -58,7 +58,7 @@ function sell_npc_command(...)
         for name in pairs(profiles[commands[1]]) do
             check_item(name, true)
         end
-        windower.add_to_chat(207, '%s: Loaded profile "%s"':format(_addon.name, commands[1]))
+        windower.add_to_chat(207, ('%s: Loaded profile "%s"'):format(_addon.name, commands[1]))
     else
         check_item(table.concat(commands,' '))
     end

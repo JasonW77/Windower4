@@ -47,7 +47,7 @@ profiles['junk'] = S{
 	'Snoll Arm',
 	'Gaia Mantle',
 	'Behemoth Mantle',
-	'Demons Ring',
+	'Demon\'s Ring',
 	'Jadeite Ring',
 	'Zircon Ring',
 	'Fluorite Ring',

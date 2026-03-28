@@ -360,9 +360,9 @@ local function update_boxes()
     roe_output = roe_output .. append_complete_section("Completed Retroactive Objectives", complete_retro, "(255,99,71)")
     roe_output = roe_output .. append_complete_section("Completed Other Objectives", complete_other, "(255,165,0)")
 
-    if not next(_roe_complete) then
-        roe_output = roe_output .. "\n\\cs(255,255,255)No completed RoE objectives.\\cr\n"
-    end
+    -- if not next(_roe_complete) then
+    --     roe_output = roe_output .. "\n\\cs(255,255,255)No completed RoE objectives.\\cr\n"
+    -- end
     box_roe:text(roe_output)
 end
 
