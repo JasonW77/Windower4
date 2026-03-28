@@ -90,7 +90,7 @@ local function save(name)
 
     settings.profiles[name] = S(_roe.active:keyset())
     settings:save('global')
-    notice('saved %d objectives to the profile %s':format(_roe.active:length(), name))
+    notice(('saved %d objectives to the profile %s'):format(_roe.active:length(), name))
 end
 
 
@@ -108,7 +108,7 @@ local function set(name)
     name = name:lower()
     
     if not settings.profiles[name] then
-        error('`set` : the profile \'%s\' does not exist':format(name))
+        error(('`set` : the profile \'%s\' does not exist'):format(name))
         return
     end
     
@@ -145,7 +145,7 @@ local function set(name)
         coroutine.sleep(.5)
     end
     
-    notice('loaded the profile \'%s\'':format(name))
+    notice(('loaded the profile \'%s\''):format(name))
 
 end
 
@@ -158,9 +158,9 @@ local function unset(name)
             cancel_roe(id)
             coroutine.sleep(.5)
         end
-        notice('unset the profile \'%s\'':format(name))
+        notice(('unset the profile \'%s\''):format(name))
     elseif name then
-        error('`unset` : the profile \'%s\' does not exist':format(name))
+        error(('`unset` : the profile \'%s\' does not exist'):format(name))
     elseif not name then
         notice('clearing ROE objectives.')
         for id,progress in pairs(_roe.active:copy()) do
@@ -182,7 +182,7 @@ local function handle_setting(setting,val)
     val = val and val:lower() or val
     
     if not setting or not settings:containskey(setting) then
-        error('specified setting (%s) does not exist':format(setting or ''))
+        error(('specified setting (%s) does not exist'):format(setting or ''))
     elseif type(settings[setting]) == "boolean" then
         if not val or not bool_strings:contains(val) then
             settings[setting] = not settings[setting]
@@ -192,7 +192,7 @@ local function handle_setting(setting,val)
             settings[setting] = false
         end
             
-        notice('%s setting is now %s':format(setting, tostring(settings[setting])))
+        notice(('%%s setting is now %%s'):format(setting, tostring(settings[setting])))
     end
 
 end
@@ -205,13 +205,13 @@ local function blacklist(add_remove,id)
     if add_remove and id then
         if add_remove == 'add' then
             settings.blacklist:add(id)
-            notice('roe quest %d added to the blacklist':format(id))
+            notice(('roe quest %d added to the blacklist'):format(id))
         elseif add_remove == 'remove' then
 	    if id >= 4008 and id <= 4021 then
                 return
 	    else
 	    settings.blacklist:remove(id)
-	    notice('roe quest %d removed from the blacklist':format(id))
+	    notice(('roe quest %d removed from the blacklist'):format(id))
 	    end
         else
             error('`blacklist` specify \'add\' or \'remove\'')
@@ -264,7 +264,7 @@ local function inc_chunk_handler(id,data)
             end
         end
     elseif id == 0x112 then
-        local complete = T{data:unpack('b1':rep(1024),4)}:key_map(
+        local complete = T{data:unpack(('b1'):rep(1024),4)}:key_map(
             function(k) 
                 return (k + 1024*data:unpack('H', 133) - 1) 
             end):map(
@@ -280,7 +280,7 @@ local function addon_command_handler(command,...)
     if cmd_handlers[cmd] then
         cmd_handlers[cmd](...)
     else
-        error('unknown command `%s`':format(cmd or ''))
+        error(('unknown command `%s`'):format(cmd or ''))
     end
 
 end

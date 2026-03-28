@@ -82,6 +82,10 @@ end)
 windower.register_event("status change", function(new,old)
     
     local target = windower.ffxi.get_mob_by_target('t')
+    -- For DEBUGGING PURPOSES ONLY: Uncomment the following lines to print the name of the current target when changing status. This can be useful for determining what to add to the exclusions list.
+    -- if target then
+    --     print("FastCS Debug: Target Name: " .. target.name)
+    -- end
     
     if not target or target and not settings.exclusions:contains(target.name:lower()) then
     
