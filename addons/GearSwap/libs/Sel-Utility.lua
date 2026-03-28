@@ -112,7 +112,7 @@ do
     auto_translate = function(term)
         if not cache[term] then
             local entry = res.auto_translates:with('english', term)
-            cache[term] = entry and 'CH>HC':pack(0xFD, 0x0202, entry.id, 0xFD) or term
+            cache[term] = entry and (("CH>HC"):pack(0xFD, 0x0202, entry.id, 0xFD)) or term
         end
 
         return cache[term]

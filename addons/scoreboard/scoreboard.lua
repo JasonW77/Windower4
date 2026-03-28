@@ -71,7 +71,7 @@ function sb_output(msg)
 end
 
 -- Handle addon args
-windower.register_event('addon command', function()
+windower.register_event('addon command', (function()
     local chatmodes = S{'s', 'l', 'l2', 'p', 't', 'say', 'linkshell', 'linkshell2', 'party', 'tell', 'echo'}
 
     return function(command, ...)
@@ -320,7 +320,7 @@ windower.register_event('addon command', function()
             error('Unrecognized command. See //sb help')
         end
     end
-end())
+end)())
 
 local months = {
     'jan', 'feb', 'mar', 'apr',

@@ -21,10 +21,10 @@ local func = {
 
 -- String decoding definitions
 local ls_enc = {
-    charset = T('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ':split()):update({
+    charset = T(('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'):split()):update({
         [0] = '`',
-        [60] = 0:char(),
-        [63] = 0:char(),
+        [60] = (0):char(),
+        [63] = (0):char(),
     }),
     bits = 6,
     terminator = function(str)
@@ -32,8 +32,8 @@ local ls_enc = {
     end
 }
 local sign_enc = {
-    charset = T('0123456798ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz{':split()):update({
-        [0] = 0:char(),
+    charset = T(('0123456798ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz{'):split()):update({
+        [0] = (0):char(),
     }),
     bits = 6,
 }
@@ -58,7 +58,7 @@ local function index(val)
 end
 
 local function ip(val)
-    return '%d.%d.%d.%d':format('I':pack(val):unpack('CCCC'))
+    return (('%%d.%%d.%%d.%%d'):format(('I'):pack(val):unpack('CCCC')))
 end
 
 local function gil(val)
@@ -91,7 +91,7 @@ do
     local now = os.time()
     local h, m = (os.difftime(now, os.time(os.date('!*t', now))) / 3600):modf()
 
-    local timezone = '%+.2d:%.2d':format(h, 60 * m)
+    local timezone = (('%%+.2d:%%.2d'):format(h, 60 * m))
 
     local fn = function(ts)
         return os.date('%Y-%m-%dT%H:%M:%S' .. timezone, ts)
@@ -110,21 +110,21 @@ do
     end
 end
 
-local time_ms = time .. function(val) return val/1000 end
+local time_ms = function(val) return time(val/1000) end
 
-local dir = function()
+local dir = (function()
     local dir_sets = L{'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW', 'N', 'NNE', 'NE', 'ENE', 'E'}
     return function(val)
         return dir_sets[((val + 8)/16):floor() + 1]
     end
-end()
+end)()
 
 local function cap(max, val)
-    return '%.1f':format(100*val/max)..'%'
+    return (('%%.1f'):format(100*val/max))..'%'
 end
 
 local function zone(val)
-    return res.zones[val] and res.zones[val].name or '- (Unknown zone ID: %d)':format(val)
+    return res.zones[val] and res.zones[val].name or (('%%d'):format(val))
 end
 
 local function item(val)
@@ -269,7 +269,7 @@ local enums = {
 }
 
 local e = function(t, val)
-    return enums[t][val] or 'Unknown value for \'%s\': %s':format(t, tostring(val))
+    return enums[t][val] or (('Unknown value for \'%s\': %s'):format(t, tostring(val)))
 end
 
 --[[
@@ -615,7 +615,7 @@ fields.outgoing[0x051] = function(data, count)
     return func.outgoing[0x051].base + L{
         -- Only the number given in Count will be properly populated, the rest is junk
         {ref=types.equipset,        count=count},                                   -- 08
-        {ctype='data[%u]':format((16 - count) * 4), label='_junk1'},                -- 08 + 4 * count
+        {ctype=(('data[%%u]'):format((16 - count) * 4)), label='_junk1'},                -- 08 + 4 * count
     }
 end
 
@@ -1510,13 +1510,13 @@ func.incoming[0x017][0x22] = L{ -- AssistJ
 func.incoming[0x017][0x23] = func.incoming[0x017][0x22] -- AssistE
 
 -- Incoming Chat
-fields.incoming[0x017] = function()
+fields.incoming[0x017] = (function()
     local fields = func.incoming[0x017]
 
     return function(data, type)
         return fields.base + (fields[type or data:byte(5)] or fields.default)
     end
-end()
+end)()
 
 types.job_master= L{
     {ctype='boolbit', label='Master'}
@@ -1647,7 +1647,7 @@ fields.incoming[0x020] = L{
     {ctype='unsigned char',     label='Bag',                fn=bag},            -- 0E
     {ctype='unsigned char',     label='Index',              fn=invp+{0x0E}},    -- 0F
     {ctype='unsigned char',     label='Status',             fn=e+{'itemstat'}}, -- 10
-    {ctype='data[24]',          label='ExtData',            fn='...':fn()},     -- 11
+    {ctype='data[24]',          label='ExtData',            fn=(('...'):fn())},     -- 11
     {ctype='data[3]',           label='_junk1'},                                -- 29
 }
 
@@ -1717,7 +1717,7 @@ fields.incoming[0x027] = L{
 
 -- Action
 func.incoming[0x028] = {}
-fields.incoming[0x028] = function()
+fields.incoming[0x028] = (function()
     local self = func.incoming[0x028]
 
     -- start and length are both in bits
@@ -1766,7 +1766,7 @@ fields.incoming[0x028] = function()
             action, pos = add_action(data, pos)
 
             action = action:copy():map(function(field)
-                field.label = 'Action %u %s':format(i, field.label)
+                field.label = (('Action %%u %%s'):format(i, field.label))
                 return field
             end)
             target:extend(action)
@@ -1786,7 +1786,7 @@ fields.incoming[0x028] = function()
             target, pos = add_target(data, pos)
 
             target = target:copy():map(function(field)
-                field.label = 'Target %u %s':format(i, field.label)
+                field.label = (('Target %%u %%s'):format(i, field.label))
                 return field
             end)
             fields:extend(target)
@@ -1794,7 +1794,7 @@ fields.incoming[0x028] = function()
 
         return fields
     end
-end()
+end)()
 
 enums.action_in = {
     [1] = 'Melee attack',
@@ -2416,12 +2416,12 @@ fields.incoming[0x047] = L{
 
 -- Delivery Item
 func.incoming[0x04B] = {}
-fields.incoming[0x04B] = function()
+fields.incoming[0x04B] = (function()
     local full = S{0x01, 0x04, 0x06, 0x08, 0x0A} -- This might not catch all packets with 'slot-info' (extra 68 bytes)
     return function(data, type)
         return full:contains(type or data:byte(5)) and func.incoming[0x04B].slot or func.incoming[0x04B].base
     end
-end()
+end)()
 
 enums.delivery = {
     -- Seems to occur when refreshing the d-box after any change (or before changes).
@@ -2645,13 +2645,13 @@ func.incoming[0x04C][0x10] = L{
 -- Auction Interaction
 -- All types in here are server responses to the equivalent type in 0x04E
 -- The only exception is type 0x02, which is sent to initiate the AH menu
-fields.incoming[0x04C] = function()
+fields.incoming[0x04C] = (function()
     local fields = func.incoming[0x04C]
 
     return function(data, type)
         return fields.base + (fields[type or data:byte(5)] or L{})
     end
-end()
+end)()
 
 -- Servmes Resp
 -- Length of the packet may vary based on message length? Kind of hard to test.
@@ -3243,13 +3243,13 @@ fields.incoming[0x070] = L{
 -- Unity Start
 -- Only observed being used for Unity fights. Also observed on DynaD, Odyssey for mask//weapon/neck/izzat progression bars, Escutcheons progression and mandragora minigame.
 func.incoming[0x075] = {}
-fields.incoming[0x075] = function()
+fields.incoming[0x075] = (function()
     local fields = func.incoming[0x075]
 
     return function(data, type)
         return fields.base + (fields[type] or (data:byte(0x025) > 1 and fields.bars) or fields.default)
     end
-end()
+end)()
 
 enums[0x075] = {
     [0] = 'No Timer',
@@ -3943,7 +3943,7 @@ fields.incoming[0x117] = function(data, count)
     return func.incoming[0x117].base + L{
         -- Only the number given in Count will be properly populated, the rest is junk
         {ref=types.equipset,        count=count},                                   -- 08
-        {ctype='data[%u]':format((16 - count) * 4), label='_junk1'},                -- 08 + 4 * count
+        {ctype=(('data[%%u]'):format((16 - count) * 4)), label='_junk1'},                -- 08 + 4 * count
         {ref=types.equipset,        lookup={res.slots, 0x00},   count=0x10},        -- 48
     }
 end

@@ -109,7 +109,7 @@ function Display:build_scoreboard_header()
     if self.db:empty() then
         labels = '\n'
     else
-        labels = '%32s%7s%9s\n':format('Tot', 'Pct', 'DPS')
+        labels = ('%32s%7s%9s\n'):format('Tot', 'Pct', 'DPS')
     end
 
     local dps_status
@@ -121,12 +121,12 @@ function Display:build_scoreboard_header()
 
     local dps_clock_str = ''
     if dps_clock:is_active() or dps_clock.clock > 1 then
-        dps_clock_str = ' (%s)':format(dps_clock:to_string())
+        dps_clock_str = (' (%s)'):format(dps_clock:to_string())
     end
 
-    local dps_chunk = 'DPS: %s%s':format(dps_status, dps_clock_str)
+    local dps_chunk = ('DPS: %s%s'):format(dps_status, dps_clock_str)
 
-    return '%s%s\nMobs: %-9s\n%s':format(dps_chunk, ' ':rep(29 - dps_chunk:len()) .. '//sb help', mob_filter_str, labels)
+    return ('%s%s\nMobs: %-9s\n%s'):format(dps_chunk, (' '):rep(29 - dps_chunk:len()) .. '//sb help', mob_filter_str, labels)
 end
 
 
@@ -192,24 +192,24 @@ function Display:update()
             if dps_clock.clock == 0 then
                 dps = "N/A"
             else
-                dps = '%.2f':format(math.round(v[2] / dps_clock.clock, 2))
+                dps = ('%.2f'):format(math.round(v[2] / dps_clock.clock, 2))
             end
 
             local percent
             if total_damage > 0 then
-                percent = '(%.1f%%)':format(100 * v[2] / total_damage)
+                percent = ('(%.1f%%)'):format(100 * v[2] / total_damage)
             else
                 percent = '(0%)'
             end
-            display_table:append('%-25s%7.0f%8s %7s':format(v[1], v[2], percent, dps))
+            display_table:append(('%-25s%7.0f%8s %7s'):format(v[1], v[2], percent, dps))
         end
         alli_damage = alli_damage + v[2] -- gather this even for players not displayed
         player_lines = player_lines + 1
     end
 
     if self.settings.showallidps and dps_clock.clock > 0 then
-        display_table:append('-':rep(17))
-        display_table:append('Alli DPS: ' .. '%7.1f':format(alli_damage / dps_clock.clock))
+        display_table:append(('-'):rep(17))
+        display_table:append('Alli DPS: ' .. ('%7.1f'):format(alli_damage / dps_clock.clock))
     end
 
     self.text:text(self:build_scoreboard_header() .. table.concat(display_table, '\n'))
@@ -295,7 +295,7 @@ function Display:report_summary (...)
 
     local elements = T{}
     for k, v in pairs(damage_table) do
-        elements:append('%s %.0f(%.1f%%)':format(v[1], v[2], 100 * v[2]/total_damage))
+        elements:append(('%s %.0f(%.1f%%)'):format(v[1], v[2], 100 * v[2]/total_damage))
     end
 
     -- Send the report to the specified chatmode
@@ -313,7 +313,7 @@ Display.stat_summaries._format_title = function (msg)
         local msg_length  = msg:len()
         local border_len = math.floor(line_length / 2 - msg_length / 2)
 
-        return ' ':rep(border_len) .. msg .. ' ':rep(border_len)
+        return (' '):rep(border_len) .. msg .. (' '):rep(border_len)
     end
 
     
@@ -321,7 +321,7 @@ Display.stat_summaries['range'] = function (stats, filters, options)
         
         local lines = T{}
         for name, pair in pairs(stats) do
-            lines:append('%-20s %d min   %d max':format(name, pair[1], pair[2]))
+            lines:append(('%-20s %d min   %d max'):format(name, pair[1], pair[2]))
         end
 
         if #lines > 0 and options and options.name then
@@ -336,10 +336,10 @@ Display.stat_summaries['average'] = function (stats, filters, options)
         local lines = T{}
         for name, pair in pairs(stats) do
             if options and options.percent then
-                lines:append('%-20s %.2f%% (%d sample%s)':format(name, 100 * pair[1], pair[2],
+                lines:append(('%-20s %.2f%% (%d sample%s)'):format(name, 100 * pair[1], pair[2],
                                                                       pair[2] == 1 and '' or 's'))
             else
-                lines:append('%-20s %d (%ds)':format(name, pair[1], pair[2]))
+                lines:append(('%-20s %d (%ds)'):format(name, pair[1], pair[2]))
             end
         end
 
@@ -352,7 +352,7 @@ Display.stat_summaries['average'] = function (stats, filters, options)
     
 -- This is a closure around a hash-based dispatcher. Some conveniences are
 -- defined for the actual stat display functions.
-Display.show_stat = function()
+Display.show_stat = (function()
     return function (self, stat, player_filter)
         local stats = self.db:query_stat(stat, player_filter)
         local filters = self.db:get_filters()
@@ -366,7 +366,7 @@ Display.show_stat = function()
         
         Display.stat_summaries[Display.stat_summaries._all_stats[stat].category](stats, filter_str, Display.stat_summaries._all_stats[stat])
     end
-end()
+end)()
 
 
 -- TODO: This needs to be factored somehow to take better advantage of similar
@@ -419,7 +419,7 @@ function Display:reset()
     -- consistent even when there's no data being displayed
     self.text:text(self:build_scoreboard_header() ..
                       'Waiting for results...' ..
-                      ' ':rep(17))
+                      (' '):rep(17))
 end
 
 

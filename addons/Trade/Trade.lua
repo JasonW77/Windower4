@@ -22,14 +22,14 @@ windower.register_event('addon command', function(name, command)
             settings.whitelist:add(name)
             settings:save('all')
         end
-        windower.add_to_chat(207, '%s: %s added to whitelist':format(_addon.name, name))
+        windower.add_to_chat(207, ('%s: %s added to whitelist'):format(_addon.name, name))
         return
     elseif command == 'remove' then
         if settings.whitelist:contains(name) then
             settings.whitelist:remove(name)
             settings:save('all')
         end
-        windower.add_to_chat(207, '%s: %s removed from whitelist':format(_addon.name, name))
+        windower.add_to_chat(207, ('%s: %s removed from whitelist'):format(_addon.name, name))
         return
     end
 
@@ -40,7 +40,7 @@ windower.register_event('addon command', function(name, command)
     if not targ or targ.is_npc or math.sqrt(targ.distance) > 6 then return end
 
     windower.send_command('keyboard_blockinput 1')
-    windower.chat.input('/target %s':format(targ.name))
+    windower.chat.input(('/target %s'):format(targ.name))
     coroutine.sleep(0.2)
     windower.send_command(setkeys)
 
@@ -65,13 +65,13 @@ windower.register_event('incoming chunk', function(id, data, modified, injected,
         if not injected and trader and settings.whitelist:contains(trader.name) then
             local status = windower.ffxi.get_mob_by_target('me').status
             if (status < 2 or status > 4) then
-                windower.packets.inject_outgoing(0x33, 'I3':pack(0x633, 0, 0))
+                windower.packets.inject_outgoing(0x33, ('I3'):pack(0x633, 0, 0))
             end
         end
     elseif id == 0x022 then
         if data:byte(9) == 0x02 then
             if trade_count and settings.whitelist:contains(windower.ffxi.get_mob_by_id(data:unpack('I', 5)).name) then
-                windower.packets.inject_outgoing(0x33, 'I2H2':pack(0x633, 0x02, trade_count, 0))
+                windower.packets.inject_outgoing(0x33, ('I2H2'):pack(0x633, 0x02, trade_count, 0))
             end
         else
             trade_count = 0

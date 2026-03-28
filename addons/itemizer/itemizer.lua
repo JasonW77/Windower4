@@ -49,7 +49,7 @@ windower.register_event("load", "login", function()
     local _, _, saved   = settings.version:find("(%d+%.%d+%.)")
     local _, _, current = _addon.version:find("(%d+%.%d+%.)")
     if saved ~= current then
-        log("Itemizer v%s: New features added. (use //itemizer help to find out about them)":format(_addon.version))
+        log(('Itemizer v%s: New features added. (use //itemizer help to find out about them)'):format(_addon.version))
         settings.version = _addon.version
         settings:save()
     end
@@ -111,14 +111,14 @@ windower.register_event("addon command", function(command, arg2, ...)
         if type(arg2) == 'number' then
             settings.delay = arg2
             settings:save()
-            log('Delay is now %s.':format(settings.delay))
+            log(('Delay is now %s.'):format(settings.delay))
         else
             error('The delay must be a number')
         end
     elseif T{'autoninjatools','ant'}:contains(command:lower()) then
         settings.AutoNinjaTools = not settings.AutoNinjaTools
         settings:save()
-        log('AutoNinjaTools is now', settings.AutoNinjaTools)
+        log(('AutoNinjaTools is now %s.'):format(settings.AutoNinjaTools))
     elseif T{'autoitems','ai'}:contains(command:lower()) then
         settings.AutoItems = not settings.AutoItems
         settings:save()
@@ -128,13 +128,13 @@ windower.register_event("addon command", function(command, arg2, ...)
         if settings.UseUniversalTools[arg] ~= nil then
             settings.UseUniversalTools[arg] = not settings.UseUniversalTools[arg]
             settings:save()
-            log('UseUniversalTools for %s spells is now':format(arg), settings.UseUniversalTools[arg])
+            log(('UseUniversalTools for %s spells is now %s.'):format(arg, settings.UseUniversalTools[arg]))
         else
             error('Argument 2 must be a ninjutsu spell (sans :ichi or :ni) i.e. uut katon')
         end
     elseif T{'autostack','as'}:contains(command:lower()) then
         settings.AutoStack = not settings.AutoStack
-        log('AutoStack is now', settings.AutoStack)
+        log(('AutoStack is now %s.'):format(settings.AutoStack))
         settings:save()
     end
 end)
@@ -148,7 +148,7 @@ local function validate_bag(bag_name, purpose)
         return nil
     end
     if not windower.ffxi.get_bag_info(bag_id).enabled then
-        error('%s currently not enabled':format(res.bags[bag_id].name))
+        error(('%s currently not enabled'):format(res.bags[bag_id].name))
         return nil
     end
     return bag_id
@@ -201,7 +201,7 @@ windower.register_event('unhandled command', function(command, ...)
 
         local destination_bag_info = windower.ffxi.get_bag_info(destination_bag)
         if destination_bag_info.max - destination_bag_info.count == 0 then
-            error('Not enough space in %s to move items.':format(res.bags[destination_bag].name))
+            error(('Not enough space in %s to move items.'):format(res.bags[destination_bag].name))
             return
         end
 
@@ -209,18 +209,18 @@ windower.register_event('unhandled command', function(command, ...)
 
         local item_ids = (S(res.items:name(windower.wc_match-{item_name})) + S(res.items:name_log(windower.wc_match-{item_name}))):map(table.get-{'id'})
         if item_ids:length() == 0 then
-            error('Unknown item: %s':format(item_name))
+            error(('Unknown item: %s'):format(item_name))
             return
         end
 
         local matches, results = find_items(item_ids, source_bag, count)
         if results == 0 then
-            error('Item "%s" not found in %s.':format(item_name, source_bag and res.bags[source_bag].name or 'any accessible bags'))
+            error(('Item "%s" not found in %s.'):format(item_name, source_bag and res.bags[source_bag].name or 'any accessible bags'))
             return
         end
 
         if count and results < count then
-            warning('Only %u "%s" found in %s.':format(results, item_name, source_bag and res.bags[source_bag].name or 'all accessible bags'))
+            warning(('Only %u "%s" found in %s.'):format(results, item_name, source_bag and res.bags[source_bag].name or 'all accessible bags'))
         end
 
         for match in matches:it() do
@@ -314,7 +314,7 @@ collect_item = function(id, items)
         -- Add currently processing ID to set of active IDs
         active:add(id)
     else
-        error('Item "%s" not found in any accessible bags':format(res.items[id].name))
+        error(('Item "%s" not found in any accessible bags'):format(res.items[id].name))
     end
 
     return match ~= nil
@@ -335,7 +335,7 @@ reschedule = function(text, ids, items)
 
     for id in L(ids):it() do
         if collect_item(id, items) then
-            windower.send_command:prepare('input %s':format(text)):schedule(settings.Delay)
+            windower.send_command:prepare(('input %s'):format(text)):schedule(settings.Delay)
             return true
         end
     end
@@ -399,7 +399,7 @@ windower.register_event('outgoing text', function()
 
         end
     end
-end())
+end)()
 
 --[[
 Copyright © 2013-2015, Ihina

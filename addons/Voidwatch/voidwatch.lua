@@ -142,14 +142,14 @@ local function trade_cells()
         local inventory = windower.ffxi.get_items(0)
         for index = 1, inventory.max do
             if (remaining.cobalt > 0) and (inventory[index].id == cells['Cobalt Cell']) then
-                trade['Item Index %d':format(idx)] = index
-                trade['Item Count %d':format(idx)] = 1
+                trade[('Item Index %d'):format(idx)] = index
+                trade[('Item Count %d'):format(idx)] = 1
                 idx = idx + 1
                 remaining.cobalt = 0
                 n = n + 1
             elseif (remaining.rubicund > 0) and (inventory[index].id == cells['Rubicund Cell']) then
-                trade['Item Index %d':format(idx)] = index
-                trade['Item Count %d':format(idx)] = 1
+                trade[('Item Index %d'):format(idx)] = index
+                trade[('Item Count %d'):format(idx)] = 1
                 idx = idx + 1
                 remaining.rubicund = 0
                 n = n + 1
@@ -160,8 +160,8 @@ local function trade_cells()
                 else
                     count = inventory[index].count
                 end
-                trade['Item Index %d':format(idx)] = index
-                trade['Item Count %d':format(idx)] = count
+                trade[('Item Index %d'):format(idx)] = index
+                trade[('Item Count %d'):format(idx)] = count
                 idx = idx + 1
                 remaining.phase = remaining.phase - count
                 n = n + count
@@ -183,7 +183,7 @@ local function observe_box_spawn(id, data)
         if not mob then elseif (mob.name == 'Riftworn Pyxis') then
             if p['Type'] == 'deru' then
                 log('box spawn')
-                log('time offset %f':format(calculate_time_offset()))
+                log(('time offset %f'):format(calculate_time_offset()))
                 coroutine.schedule(poke_box, calculate_time_offset())
             elseif p['Type'] == 'kesu' then
                 log('box despawn')
@@ -250,9 +250,9 @@ end
 
 local function has_rare_item(id)
     local items = windower.ffxi.get_items()
-    log("Searching for rare item %s":format(res.items[id].en))
+    log(('Searching for rare item %s'):format(res.items[id].en))
     for k, v in pairs(bags) do
-        for index = 1, items["max_%s":format(v)] do
+        for index = 1, items["max_%s"]:format(v) do
             if items[v][index].id == id then
                 return true
             end
@@ -316,7 +316,7 @@ local function handle_command(...)
             error(msg)
         end
     else
-        error("unknown command %s":format(cmd))
+        error(("unknown command %s"):format(cmd))
     end
 end
 

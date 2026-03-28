@@ -123,7 +123,7 @@ function visiblefavor_command(...)
         windower.add_to_chat(167, '    vf effect buff/debuff')
         return
     end
-    windower.add_to_chat(207, 'VisibleFavor: enable = ' .. (settings.enabled and 'yes':color(204) or 'no':color(167)) .. ', display = ' .. settings.display:color(200) .. ', effect = ' .. settings.effect:color(200))
+    windower.add_to_chat(207, 'VisibleFavor: enable = ' .. (settings.enabled and ('yes'):color(204) or ('no'):color(167)) .. ', display = ' .. settings.display:color(200) .. ', effect = ' .. settings.effect:color(200))
     settings:save()
 end
 

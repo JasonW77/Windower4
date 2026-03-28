@@ -17,18 +17,18 @@ local packets = {}
 _libs.packets = packets
 
 if not warning then
-    warning = print+{_addon.name and '%s warning:':format(_addon.name) or 'Warning:'}
+    warning = print+{_addon.name and ('%s warning:'):format(_addon.name) or 'Warning:'}
 end
 
 __meta = __meta or {}
 __meta.Packet = {__tostring = function(packet)
-    local res = '%s packet 0x%.3X (%s):':format(packet._dir:capitalize(), packet._id, packet._name or 'Unrecognized packet')
+    local res = ('%s packet 0x%.3X (%s):'):format(packet._dir:capitalize(), packet._id, packet._name or 'Unrecognized packet')
 
     local raw = packets.build(packet)
     for field in packets.fields(packet._dir, packet._id, raw):it() do
-        res = '%s\n%s: %s':format(res, field.label, tostring(packet[field.label]))
+        res = ('%s\n%s: %s'):format(res, field.label, tostring(packet[field.label]))
         if field.fn then
-            res = '%s (%s)':format(res, tostring(field.fn(packet[field.label], raw)))
+            res = ('%s (%s)'):format(res, tostring(field.fn(packet[field.label], raw)))
         end
     end
 
@@ -146,10 +146,10 @@ parse = function(fields, data, index, max, lookup, depth)
                         if lookup then
                             -- Look up index name in provided table
                             local resource = lookup[1][count + lookup[2] - 1]
-                            field.label = '%s %s':format(resource and resource.english or 'Unknown %d':format(count + lookup[2] - 1), field.label)
+                            field.label = ('%s %s'):format(resource and resource.english or ('Unknown %d'):format(count + lookup[2] - 1), field.label)
                         else
                             -- Just increment numerically
-                            field.label = '%s %d':format(field.label, count)
+                            field.label = ('%s %d'):format(field.label, count)
                         end
                     end
 
@@ -163,7 +163,7 @@ parse = function(fields, data, index, max, lookup, depth)
                         type_count = ((length - parsed_index) / sizes[type]):floor()
                         bits = sizes[type] * type_count
 
-                        field.ctype = '%s[%u]':format(type, type_count)
+                        field.ctype = ('%s[%u]'):format(type, type_count)
 
                         count = max
                     end
@@ -226,7 +226,7 @@ function packets.fields(dir, id, data, ...)
     if not data then
         local argcount = select('#', ...)
         local bits = size(fields, argcount > 0 and select(argcount, ...) or nil)
-        data = 0:char():rep(4 + 4 * ((bits or 0) / 32):ceil())
+        data = string.char(0):rep(4 + 4 * math.ceil((bits or 0) / 32))
     end
 
     return parse(fields, data)
@@ -321,7 +321,7 @@ end
 function packets.parse(dir, data)
     local rem = #data % 4
     if rem ~= 0 then
-        data = data .. 0:char():rep(4 - rem)
+        data = data .. string.char(0):rep(4 - rem)
     end
 
     local res = setmetatable({}, __meta.Packet)
@@ -361,7 +361,7 @@ function packets.new(dir, id, values, ...)
 
     local fields = packets.fields(packet._dir, packet._id, nil, ...)
     if not fields then
-        warning('Packet 0x%.3X not recognized.':format(id))
+        warning(('Packet 0x%.3X not recognized.'):format(id))
         return packet
     end
 
@@ -402,7 +402,7 @@ end
 function packets.build(packet)
     local fields = packets.fields(packet._dir, packet._id, packet._raw, unpack(packet._args or {}))
     if not fields then
-        error('Packet 0x%.3X not recognized, unable to build.':format(packet._id))
+        error(('Packet 0x%.3X not recognized, unable to build.'):format(packet._id))
         return nil
     end
 
@@ -410,10 +410,10 @@ function packets.build(packet)
     local data = pack_string:pack(fields:map(lookup+{packet}):unpack())
     local rem = #data % 4
     if rem ~= 0 then
-        data = data .. 0:char():rep(4 - rem)
+        data = data .. string.char(0):rep(4 - rem)
     end
 
-    return 'b9b7H':pack(packet._id, 1 + #data / 4, packet._sequence) .. data
+    return ('b9b7H'):pack(packet._id, 1 + #data / 4, packet._sequence) .. data
 end
 
 -- Injects a packet built with packets.new
@@ -425,7 +425,7 @@ function packets.inject(packet)
 
     local fields = packets.fields(packet._dir, packet._id, packet._raw)
     if not fields then
-        error('Packet 0x%.3X not recognized, unable to send.':format(packet._id))
+        error(('Packet 0x%.3X not recognized, unable to send.'):format(packet._id))
         return nil
     end
 

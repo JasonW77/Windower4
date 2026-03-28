@@ -22,7 +22,7 @@ _meta = _meta or {}
 
 debug.setmetatable('', {
     __index = function(str, k)
-        return string[k] or type(k) == 'number' and string.sub(str, k, k) or _raw.error('"%s" is not defined for strings':format(tostring(k)), 2)
+        return string[k] or type(k) == 'number' and string.sub(str, k, k) or _raw.error(('"%s" is not defined for strings'):format(tostring(k)), 2)
     end,
     __unm = functions.negate .. functions.equals,
     __unp = functions.equals,
@@ -941,7 +941,7 @@ end
 
     -- Returns a string parsed from a binary-represented string.
     local binary_r = string.char .. tonumber-{2}
-    local binary_pattern = '[01]':rep(8)
+    local binary_pattern = ('[01]'):rep(8)
     function string.parse_binary(str)
         local interpreted_string = str:gsub('0b', ''):gsub('[^01]', '')
         if #interpreted_string % 8 ~= 0 then

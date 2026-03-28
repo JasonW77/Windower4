@@ -47,11 +47,11 @@ local redict = {
 }
 
 -- The metatable for a single resource item (an entry in a sub table of the root resource table)
-local resource_entry_mt = {__index = function()
+local resource_entry_mt = {__index = (function()
     return function(t, k)
         return redict[k] and t[redict[k]] or table[k]
     end
-end()}
+end)()}
 
 function resource_group(r, fn, attr)
     attr = redict[attr] or attr

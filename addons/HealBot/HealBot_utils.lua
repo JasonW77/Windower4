@@ -766,7 +766,7 @@ function help_text()
         {'cancelbuff <player> <spell>[, <spell>[, ...]]','Un-sets spell(s) to be maintained on the given player'},
         {'blcmd','Sets the given list of spells to be maintained on the given player'},
         {'bufflists','Lists the currently configured spells/abilities in each bufflist'},
-        {'spam [use <spell> | <bool>]','Sets the spell to be spammed on assist target\s enemy, or toggles being active (default: Stone, off)'},
+        {'spam [use <spell> | <bool>]','Sets the spell to be spammed on assist targets enemy, or toggles being active (default: Stone, off)'},
         {'dbcmd','Add/remove debuff spell to maintain on assist target\'s enemy, toggle on/off, or list current debuffs to maintain'},
         {'mincure <number>','Sets the minimum cure spell tier to cast (default: 3)'},
         {'disable <action type>','Disables actions of a given type (cure, buff, na)'},

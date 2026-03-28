@@ -180,15 +180,14 @@ windower.register_event('action', function(act)
         local rollNum = act.targets[1].actions[1].param
 
         -- anonymous function that checks if the player.id is in the targets without wrapping it in another layer of for loops.
-        if
-            function(act)
+        if (function(act)
                 for i = 1, #act.targets do
                     if act.targets[i].id == player.id then
                         return true
                     end
                 end
                 return false
-            end(act)
+            end)(act)
         then
             local party = windower.ffxi.get_party()
             rollMembers = {}
@@ -321,12 +320,12 @@ function RollEffect(rollid, rollnum)
 
     -- Convert Bolter's to Movement Speed based on 5.0 being 100%
     if (rollName == "Bolter\'s") then
-        rollVal = '%.0f':format(100*((5+rollVal) / 5 - 1))
+        rollVal = ('%.0f'):format(100*((5+rollVal) / 5 - 1))
     end
 
     --Convert Beast/Chaos/Gallant's to % with 2 decimals
     if (rollName == "Chaos") or (rollName == "Gallant\'s") or (rollName == "Beast") then
-        rollVal = '%.2f':format(rollVal/1024 * 100)
+        rollVal = ('%.2f'):format(rollVal/1024 * 100)
     end
 
     return rollVal..rollInfo[rollid][14]
@@ -337,7 +336,7 @@ function BustRate(rollNum, rollActor)
     if rollNum <= 5 or rollNum == 11 or rollActor ~= player.id or settings.bust == 0 then
         return ''
     end
-    return '\7  [Chance to Bust]: ' .. '%.1f':format((rollNum-5)*16.67) .. '%'
+    return '\7  [Chance to Bust]: ' .. ('%.1f'):format((rollNum-5)*16.67) .. '%'
 end
 
 --Display Lucky/Unlucky #s and check if it's already been reported once.

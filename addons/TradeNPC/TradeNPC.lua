@@ -73,18 +73,18 @@ windower.register_event('addon command', function(...)
             local name = windower.convert_auto_trans(args[x*2]):lower()
             local item = get_item_res(name)
             if not item or item.flags['Linkshell'] == true then
-                print('"%s" not a valid item name: arg %d':format(name, x*2))
+                print(('"%s" not a valid item name: arg %d'):format(name, x*2))
                 return
             end
             if not units or units < 1 then
-                print('Invalid quantity: arg %d':format(x*2-1))
+                print(('Invalid quantity: arg %d'):format(x*2-1))
                 return
             end
             while units > 0 do
                 local count = units > item.stack and item.stack or units
                 local index = find_item(inventory, item.id, count, exclude)
                 if not index then
-                    print('%s x%s not found in inventory.':format(item.name, args[x*2-1]))
+                    print(('%s x%s not found in inventory.'):format(item.name, args[x*2-1]))
                     return
                 end
                 exclude[index] = true
@@ -99,7 +99,7 @@ windower.register_event('addon command', function(...)
                 ind[x+1] = 0
                 qty[x+1] = 0
             end
-            local menu_item = 'C4I11C10HI':pack(0x36,0x20,0x00,0x00,target.id,
+            local menu_item = ('C4I11C10HI'):pack(0x36,0x20,0x00,0x00,target.id,
                 qty[1],qty[2],qty[3],qty[4],qty[5],qty[6],qty[7],qty[8],qty[9],0x00,
                 ind[1],ind[2],ind[3],ind[4],ind[5],ind[6],ind[7],ind[8],ind[9],0x00,
                 target.index,num)

@@ -43,7 +43,7 @@ do
 
     for i = 0, 17 do
         local party = (i / 6):floor() + 1
-        local key = {'p%i', 'a1%i', 'a2%i'}[party]:format(i % 6)
+        local key = ({'p%i', 'a1%i', 'a2%i'})[party]:format(i % 6)
         local pos_base = {-34, -389, -288}
         tp[key] = texts.new('${tp}', {
             pos = {

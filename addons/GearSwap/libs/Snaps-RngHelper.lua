@@ -183,7 +183,7 @@ local action_message_unable = {
 local function load_profile(name, set_to_default)
     local profile = settings.profiles[name]
     for k, v in pairs(profile.cooldowns) do
-        cooldowns["\/%s":format(k)] = v
+        cooldowns[("/%s"):format(k)] = v
     end
     --weaponskill = profile.weaponskill
     mode = profile.mode
@@ -227,22 +227,22 @@ local function execute_pending_action()
 	if buffactive['Hover Shot'] and state.HoverShot.value then
 		if pending.prefix == '/range' then
 			hover_movement()
-			windower.chat.input:schedule(.8, "%s %d":format(pending.prefix, pending.target))
+			windower.chat.input:schedule(.8, ("%s %d"):format(pending.prefix, pending.target))
 			cooldown = cooldowns[pending.prefix] + .8
 		elseif pending.prefix == '/weaponskill' then
 			hover_movement()
-			windower.chat.input:schedule(.8, "%s \"%s\" %d":format(pending.prefix, pending.english, pending.target))
+			windower.chat.input:schedule(.8, ("%s \"%s\" %d"):format(pending.prefix, pending.english, pending.target))
 			cooldown = cooldowns[pending.prefix] + .8
 		else
-			windower.chat.input("%s \"%s\" %d":format(pending.prefix, pending.english, pending.target))
+			windower.chat.input(("%s \"%s\" %d"):format(pending.prefix, pending.english, pending.target))
 			cooldown = cooldowns[pending.prefix]
 		end	
 	else
 		cooldown = cooldowns[pending.prefix]
 		if pending.prefix == '/range' then
-				windower.chat.input("%s %d":format(pending.prefix, pending.target))
+				windower.chat.input(("%s %d"):format(pending.prefix, pending.target))
 		else
-			windower.chat.input("%s \"%s\" %d":format(pending.prefix, pending.english, pending.target))
+			windower.chat.input(("%s \"%s\" %d"):format(pending.prefix, pending.english, pending.target))
 		end
 	end
 end
@@ -259,7 +259,7 @@ local function process_pending_action()
         end
         execute_pending_action()
     elseif not able_to_use_action() then
-        windower.add_to_chat(217, "Rnghelper : Aborting %s - Ability not ready.":format(pending.english))
+        windower.add_to_chat(217, ("Rnghelper : Aborting %s - Ability not ready."):format(pending.english))
         completion = true   
         process_queue()
     else
@@ -343,7 +343,7 @@ end
 
 local function handle_interrupt()
     completion = true
-    windower.send_command('@wait %f;gs rh process':format(cooldown))
+    windower.send_command(("@wait %f;gs rh process"):format(cooldown))
 end
 
 local function add_spell_to_queue(spell)

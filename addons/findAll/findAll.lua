@@ -69,12 +69,12 @@ do
 
             local bag = bag_name == 'all' and 'all' or bag_ids[bag_name:lower()]
             if not bag and bag_name ~= 'all' then
-                warning('Unknown bag: %s':format(bag_name))
+                warning(("Unknown bag: %s"):format(bag_name))
             else
                 if not S{'$freespace', '$usedspace', '$maxspace'}:contains(search:lower()) then
                     local items = S(res.items:name(windower.wc_match-{search})) + S(res.items:name_log(windower.wc_match-{search}))
                     if items:empty() then
-                        warning('No items matching "%s" found.':format(search))
+                        warning(("No items matching \"%s\" found."):format(search))
                     else
                         variable_cache:add({
                             name = variable,
@@ -464,7 +464,7 @@ end
 
 function make_table(tab,tab_offset)
     -- Won't work for circular references or keys containing double quotes
-    local offset = " ":rep(tab_offset)
+    local offset = ((" "):rep(tab_offset))
     local ret = "{\n"
     for i,v in pairs(tab) do
         ret = ret..offset..encase_key(i)..' = '
@@ -520,7 +520,7 @@ function update_global_storage()
             if success then
                 global_storages[f:sub(1,-5)] = result
             else
-                warning('Unable to retrieve updated item storage for %s.':format(f:sub(1,-5)))
+                warning(("Unable to retrieve updated item storage for %s."):format(f:sub(1,-5)))
             end
         end
     end
@@ -606,7 +606,7 @@ windower.register_event('unhandled command', function(command, ...)
     if command:lower() == 'find' then
         local me = windower.ffxi.get_mob_by_target('me')
         if me then
-            handle_command(':%s':format(me.name), ...)
+            handle_command((":%s"):format(me.name), ...)
         else
             handle_command(...)
         end

@@ -56,7 +56,7 @@ windower.register_event('addon command', function(command, ...)
             for key in custom:keyset():sort():it() do
                 local value = raw[key]
                 if fns[key] then
-                    value = '%s ? %s':format(value, custom[key]())
+                    value = (('%%s ? %%s'):format(value, custom[key]()))
                 end
                 log('    #' .. key, value)
             end

@@ -110,7 +110,7 @@ local function busy_wait(block, timeout, message)
     end
     if os.time() - start >= timeout then
         conditions[block] = false
-        return "timed out - %s":format(message)
+        return ("timed out - %s"):format(message)
     end
 end
 
@@ -121,7 +121,7 @@ local function validate(constrain)
         if npc and ((math.sqrt(npc.distance) < 6) or (not constrain)) then
             return npc
         else
-            error("Too far from %s.":format(zones[zone].npc))
+            error(("Too far from %s."):format(zones[zone].npc))
         end
     else
         error("Not in an Escha zone.")
@@ -258,7 +258,7 @@ local function validate_item(item)
             return v.name
         end
     end
-    error("%s not found in items list.":format(item))
+    error(("%s not found in items list."):format(item))
 end
 
 local function start(override)
@@ -269,7 +269,7 @@ local function start(override)
         if not force then
             return
         else
-            notice("Override provided for %s.":format(force))
+            notice(("Override provided for %s."):format(force))
         end
     else
         force = nil
@@ -295,7 +295,7 @@ local function blacklist(cmd, name)
     if not cmd then
         return error("No blacklist command provided.")
     elseif not S{'add', 'a', 'remove', 'r'}:contains(cmd) then
-        return error("Unknown blacklist command %s.":format(cmd))
+        return error(("Unknown blacklist command %s."):format(cmd))
     elseif not name then
         return error("No blacklist command parameter provided.")
     end
@@ -303,10 +303,10 @@ local function blacklist(cmd, name)
     if not item then
         return
     elseif S{'add', 'a'}:contains(cmd) then
-        notice("Adding %s to your blacklist.":format(item))
+        notice(("Adding %s to your blacklist."):format(item))
         settings.blacklist:add(item:lower())
     else
-        notice("Removing %s from your blacklist.":format(item))
+        notice(("Removing %s from your blacklist."):format(item))
         settings.blacklist:remove(item:lower())
     end
     settings:save()
@@ -328,7 +328,7 @@ local function handle_command(cmd, ...)
     if handlers[cmd] then
         handlers[cmd](...)
     else
-        error("Unknown command %s.":format(cmd))
+        error(("Unknown command %s."):format(cmd))
     end
 end
 

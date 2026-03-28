@@ -70,12 +70,12 @@ function T(t)
     return setmetatable(res, _meta.T)
 end
 
-N = function()
+N = (function()
     local nt = setmetatable({}, _meta.N)
     return function()
         return nt
     end
-end()
+end)()
 
 function class(o)
     local mt = getmetatable(o)

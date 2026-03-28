@@ -288,7 +288,7 @@ function merge(t, t_merge, path)
 
             if err then
                 if path then
-                    warning('Could not safely merge values for \'%s/%s\', %s expected (default: %s), got %s (%s).':format(path:concat('/'), key, class(oldval), tostring(oldval), class(val), tostring(val)))
+                    warning(("Could not safely merge values for \'%s/%s\', %s expected (default: %s), got %s (%s)."):format(path:concat('/'), key, class(oldval), tostring(oldval), class(val), tostring(val)))
                 end
                 t[key] = val
             end
@@ -436,15 +436,15 @@ function settings_xml(meta)
             lines:append('    <!--')
             local comment_lines = meta.comments.settings:split('\n')
             for comment in comment_lines:it() do
-                lines:append('        %s':format(comment:trim()))
+                lines:append(("        %s"):format(comment:trim()))
             end
 
             lines:append('    -->')
         end
 
-        lines:append('    <%s>':format(char))
+        lines:append(("    <%s>"):format(char))
         lines:append(nest_xml(meta.original[char], meta))
-        lines:append('    </%s>':format(char))
+        lines:append(("    </%s>"):format(char))
     end
 
     lines:append('</settings>')
@@ -465,17 +465,17 @@ function nest_xml(t, meta, indentlevel)
     for _, key in ipairs(keys) do
         val = t[key]
         if type(val) == 'table' and not (class(val) == 'List' or class(val) == 'Set') then
-            fragments:append('%s<%s>':format(indent, key))
+            fragments:append(("%s<%s>"):format(indent, key))
             if meta.comments[key] then
-                local c = '<!-- %s -->':format(meta.comments[key]:trim()):split('\n')
+                local c = ('<!-- %s -->'):format(meta.comments[key]:trim()):split('\n')
                 local pre = ''
                 for cstr in c:it() do
-                    fragments:append('%s%s%s':format(indent, pre, cstr:trim()))
+                    fragments:append(("%s%s%s"):format(indent, pre, cstr:trim()))
                     pre = '\t '
                 end
             end
             fragments:append(nest_xml(val, meta, indentlevel + 1))
-            fragments:append('%s</%s>':format(indent, key))
+            fragments:append(("%s</%s>"):format(indent, key))
 
         else
             if class(val) == 'List' then
@@ -485,15 +485,15 @@ function nest_xml(t, meta, indentlevel)
             elseif type(val) == 'table' then
                 val = table.format(val, 'csv')
             elseif type(val) == 'string' and meta.cdata:contains(tostring(key):lower()) then
-                val = '<![CDATA[%s]]>':format(val)
+                val = ('<![CDATA[%s]]>'):format(val)
             else
                 val = tostring(val)
             end
 
             if val == '' then
-                fragments:append('%s<%s />':format(indent, key))
+                fragments:append(("%s<%s />"):format(indent, key))
             else
-                fragments:append('%s<%s>%s</%s>':format(indent, key, meta.cdata:contains(tostring(key):lower()) and val or val:xml_escape(), key))
+                fragments:append(("%s<%s>%s</%s>"):format(indent, key, meta.cdata:contains(tostring(key):lower()) and val or val:xml_escape(), key))
             end
             local length = fragments:last():length() - indent:length()
             if length > maxlength then
@@ -505,7 +505,7 @@ function nest_xml(t, meta, indentlevel)
 
     for frag_key, key in pairs(inlines) do
         if meta.comments[key] then
-            fragments[frag_key] = '%s%s<!-- %s -->':format(fragments[frag_key], ' ':rep(maxlength - fragments[frag_key]:trim():length() + 1), meta.comments[key])
+            fragments[frag_key] = ('%s%s<!-- %s -->'):format(fragments[frag_key], (' '):rep(maxlength - fragments[frag_key]:trim():length() + 1), meta.comments[key])
         end
     end
 

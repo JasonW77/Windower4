@@ -51,7 +51,7 @@ local extract_ids = function(settings_table, key)
     local valid = settings_table[key]:filter(function(name)
         local found = all_ids[name:lower()] ~= nil
         if not found then
-            print('Treasury: Item "%s" not found in %s list.':format(name, key))
+            print(('Treasury: Item "%s" not found in %s list.'):format(name, key))
         end
         return found
     end)
@@ -112,7 +112,7 @@ end
 
 function act(action, output, id, ...)
     if settings.Verbose then
-        log('%s %s':format(output, res.items[id].name:color(258)))
+        log(('%s %s'):format(output, res.items[id].name:color(258)))
     end
     windower.ffxi[action]:prepare(...):schedule((math.random() + 1) / 2 * settings.Delay)
 end
@@ -194,10 +194,10 @@ function pool_ids()
     return S(T(windower.ffxi.get_items('treasure')):map(table.get-{'item_id'}))
 end
 
-stack = function()
+stack = (function()
     local wait_time = 0
 
-    return function()
+    return (function()
         if os.clock() - last_stack_time > 2 then
             packets.inject(packets.new('outgoing', 0x03A))
             last_stack_time = os.clock()
@@ -206,10 +206,10 @@ stack = function()
             wait_time = wait_time + 0.45
             stack:schedule(0.5)
         end
-    end:cond(function()
+    end):cond(function()
         return settings.AutoStack
     end)
-end()
+end)()
 
 stack_ids = S{0x01F, 0x020}
 last_stack_time = 0
@@ -267,13 +267,13 @@ windower.register_event('addon command', function(command1, command2, ...)
 
             local ids = find_id(name)
             if ids:empty() then
-                error('No items found that match: %s':format(name))
+                error(('No items found that match: %s'):format(name))
                 return
             end
             lotpassdrop(command1, command2, ids)
 
             if global then
-                windower.send_ipc_message('treasury %s %s %s':format(command1, command2, ids:concat(' ')))
+                windower.send_ipc_message(('treasury %s %s %s'):format(command1, command2, ids:concat(' ')))
             end
 
         elseif command2 == 'clear' then
@@ -336,7 +336,7 @@ windower.register_event('addon command', function(command1, command2, ...)
         end
 
         config.save(settings)
-        log('AutoDrop %s':format(settings.AutoDrop and 'enabled' or 'disabled'))
+        log(('AutoDrop %s'):format(settings.AutoDrop and 'enabled' or 'disabled'))
 
     elseif command1 == 'autostack' then
         if command2 then
@@ -346,16 +346,16 @@ windower.register_event('addon command', function(command1, command2, ...)
         end
 
         config.save(settings)
-        log('AutoStack %s':format(settings.AutoStack and 'enabled' or 'disabled'))
+        log(('AutoStack %s'):format(settings.AutoStack and 'enabled' or 'disabled'))
 
     elseif command1 == 'delay' then
         if not (command2 and tonumber(command2)) then
-            error('Please specify a value in seconds for the new delay')
+            error(('Please specify a value in seconds for the new delay'))
             return
         end
 
         settings.Delay = tonumber(command2)
-        log('Delay set to %f seconds':format(settings.Delay))
+        log(('Delay set to %f seconds'):format(settings.Delay))
 
     elseif command1 == 'verbose' then
         if command2 then
@@ -365,13 +365,13 @@ windower.register_event('addon command', function(command1, command2, ...)
         end
 
         config.save(settings)
-        log('Verbose output %s':format(settings.Verbose and 'enabled' or 'disabled'))
+        log(('Verbose output %s'):format(settings.Verbose and 'enabled' or 'disabled'))
 
     elseif command1 == 'save' then
         config.save(settings, 'all')
 
     elseif command1 == 'help' then
-        print('%s v%s':format(_addon.name, _addon.version))
+        print(('%s v%s'):format(_addon.name, _addon.version))
         print('    \\cs(255,255,255)lot|pass|drop add|remove <name>\\cr - Adds or removes all items matching <name> to the specified list')
         print('    \\cs(255,255,255)lot|pass|drop clear\\cr - Clears the specified list for the current character')
         print('    \\cs(255,255,255)lot|pass list\\cr - Lists all items on the specified list for the current character')
