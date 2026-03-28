@@ -16,6 +16,8 @@ _addon.commands = {"td"}
 require("logger")
 local config = require("config")
 local texts = require("texts")
+-- Declare windower as a known global for linters (e.g. luacheck)
+-- luacheck: globals windower
 local windower = _G.windower
 
 local function split(str, delim)
@@ -92,7 +94,7 @@ local function load_roe_data()
     end
 
     -- Read and skip header line
-    f:read("*l")
+    local header = f:read("*l")
 
     for line in f:lines() do
         local parts = parse_csv_line(line)
@@ -123,7 +125,9 @@ local function load_roe_data()
         end
     end
     f:close()
-    windower.add_to_chat(207, "[TODO] Loaded RoE entries: " .. tostring(table.length(roe_data)))
+    local count = 0
+    for _ in pairs(roe_data) do count = count + 1 end
+    windower.add_to_chat(207, "[TODO] Loaded RoE entries: " .. tostring(count))
 end
 
 local last_personal = { x = settings.pos_personal.x, y = settings.pos_personal.y }
