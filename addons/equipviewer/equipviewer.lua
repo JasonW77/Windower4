@@ -141,8 +141,8 @@ local function update_equipment_slot(source, slot, bag, index, item, count)
     if evdebug then
         bag = slot_data.bag_id
         index = slot_data.index
-        log('%s %s %d %d %d':format(source, slot_data.slot_name, item, bag or -1, index or -1))
-        print('%s %s %d %d %d':format(source, slot_data.slot_name, item, bag or -1, index or -1))
+        log(("%s %s %d %d %d"):format(source, slot_data.slot_name, item, bag or -1, index or -1))
+        print(("%s %s %d %d %d"):format(source, slot_data.slot_name, item, bag or -1, index or -1))
     end
     if slot_data.slot_name  == 'ammo' then
         slot_data.count = count or slot_data.count or 0
@@ -257,7 +257,7 @@ windower.register_event('incoming chunk', function(id, original, modified, injec
         
         if slot then
             if packet['Status'] ~= 5 and packet['Count'] == 0 then --item not equipped
-                update_equipment_slot:schedule(0, '0x%x':format(id), slot, 0, 0, 0)
+                update_equipment_slot:schedule(0, ("0x%x"):format(id), slot, 0, 0, 0)
                 return
             end
             if slot == 3 then --ammo
@@ -265,7 +265,7 @@ windower.register_event('incoming chunk', function(id, original, modified, injec
                 display_ammo_count(count)
             end
             local item = packet['Item']
-            update_equipment_slot:schedule(0,'0x%x':format(id), slot, bag, index, item, count)
+            update_equipment_slot:schedule(0, ("0x%x"):format(id), slot, bag, index, item, count)
         end
     elseif id == 0x01B then -- Job Info (Encumbrance Flags)
         local packet = packets.parse('incoming', original)
@@ -425,7 +425,7 @@ windower.register_event('addon command', function (...)
     if cmd == "gamepath" or cmd == "game_path" then
         if #cmd_args == 0 then
             error("Must provide path.")
-            log('Current Path: %s':format(
+            log(("Current Path: %s"):format(
                 "\""..settings.game_path.."\"" or "(Default): \""..windower.ffxi_path
             ))
             return
@@ -441,11 +441,11 @@ windower.register_event('addon command', function (...)
         
         setup_ui()
 
-        log('game_path set to "%s"':format(path))
+        log(("game_path set to \"%s\""):format(path))
     elseif cmd == 'position' or cmd == 'pos' then
         if #cmd_args < 2 then
             error('Not enough arguments.')
-            log('Current position: '..settings.pos.x..' '..settings.pos.y)
+            log(("Current position: %s %s"):format(settings.pos.x, settings.pos.y))
             return
         end
 
@@ -488,7 +488,7 @@ windower.register_event('addon command', function (...)
     elseif cmd == 'alpha' or cmd == 'opacity' then
         if #cmd_args < 1 then
             error('Not enough arguments.')
-            log('Current alpha/opacity: %d/255 = %d%%':format(
+            log(("Current alpha/opacity: %d/255 = %d%%"):format(
                 settings.icon.alpha, math.floor(settings.icon.alpha/255*100)
             ))
             return
@@ -507,7 +507,7 @@ windower.register_event('addon command', function (...)
     elseif cmd:contains('transpar') then
         if #cmd_args < 1 then
             error('Not enough arguments.')
-            log('Current transparency: %d/255 = %d%%':format(
+            log(("Current transparency: %d/255 = %d%%"):format(
                 (255-settings.icon.alpha), math.floor((255-settings.icon.alpha)/255)*100
             ))
             return
@@ -526,7 +526,7 @@ windower.register_event('addon command', function (...)
     elseif cmd == 'background' or cmd == 'bg' then
         if #cmd_args < 1 then
             error('Not enough arguments.')
-            log('Current BG color: RED:%d/255 GREEN:%d/255 BLUE:%d/255 ALPHA:%d/255 = %d%%':format(
+            log(("Current BG color: RED:%d/255 GREEN:%d/255 BLUE:%d/255 ALPHA:%d/255 = %d%%"):format(
                 settings.bg.red, settings.bg.green, settings.bg.blue, settings.bg.alpha, math.floor(settings.bg.alpha/255*100)
             ))
             return
@@ -554,7 +554,7 @@ windower.register_event('addon command', function (...)
 
         setup_ui()
         
-        log('BG color changed to: RED:%d/255 GREEN:%d/255 BLUE:%d/255 ALPHA:%d/255 = %d%%':format(
+        log(("BG color changed to: RED:%d/255 GREEN:%d/255 BLUE:%d/255 ALPHA:%d/255 = %d%%"):format(
             settings.bg.red, settings.bg.green, settings.bg.blue, settings.bg.alpha, math.floor(settings.bg.alpha/255*100)
         ))
     elseif cmd:contains('encumb') then
@@ -601,7 +601,7 @@ windower.register_event('addon command', function (...)
                 local eind = e[v.slot_name]
                 local it = v.item_id
                 local eit = windower.ffxi.get_items(eb, eind).id
-                log('%s[%d] it=%d eit=%d b=%d eb=%d i=%d ei=%d':format(v.slot_name,i, it, eit, b, eb, ind, eind))
+                log(("%s[%d] it=%d eit=%d b=%d eb=%d i=%d ei=%d"):format(v.slot_name, i, it, eit, b, eb, ind, eind))
             end
         elseif S{'1', 'on', 'true'}:contains(cmd_args[1]) then
             evdebug = true

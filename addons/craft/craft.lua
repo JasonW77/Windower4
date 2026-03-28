@@ -248,11 +248,11 @@ local function get_support(id, data)
 end
 
 local function check_bag(bag, id)
-    if not inventory['enabled_%s':format(bag)] then
+    if not inventory[('enabled_%s'):format(bag)] then
         return false
     end
     local contents = inventory[bag]
-    for index = 1, inventory['max_%s':format(bag)] do
+    for index = 1, inventory[('max_%s'):format(bag)] do
         if contents[index].id == id then
             conditions['sort'] = true
             conditions['move'] = true
@@ -288,7 +288,7 @@ local function busy_wait(block, timeout, message)
     end
     if os.time() - start >= timeout then
         conditions[block] = false
-        return "Timed out - %s":format(message)
+        return ("Timed out - %s"):format(message)
     else
         inventory = windower.ffxi.get_items()
     end
@@ -330,13 +330,13 @@ local function unblock_item(id, data)
 end
 
 local function commence_jigglin()
-    windower.send_command('setkey %s down':format(jiggle))
+    windower.send_command(('setkey %s down'):format(jiggle))
     coroutine.sleep(.25)
-    windower.send_command('setkey %s up':format(jiggle))
+    windower.send_command(('setkey %s up'):format(jiggle))
 end
 
 local function consume_item(item)
-    windower.chat.input('/item \"%s\" <me>':format(item))
+    windower.chat.input(('/item \"%s\" <me>'):format(item))
     coroutine.sleep(3.5)
     inventory = windower.ffxi.get_items()
 end
@@ -363,7 +363,7 @@ local function fetch_ingredient(ingredient)
             end
         end
         if check_bags(id) then
-            local status = busy_wait('move', 10, 'moving %s':format(ingredient))
+            local status = busy_wait('move', 10, ('moving %s'):format(ingredient))
             if status then
                 return status
             else
@@ -377,8 +377,8 @@ local function fetch_ingredient(ingredient)
                 conditions['sort'] = true
                 conditions['item'] = id
                 local start = os.time()
-                windower.chat.input('/item \"%s\" <me>':format(cluster))
-                local status = busy_wait('item', 10, 'using %s':format(cluster))
+                windower.chat.input(('/item \"%s\" <me>'):format(cluster))
+                local status = busy_wait('item', 10, ('using %s'):format(cluster))
                 if status then
                     error(status)
                 end
@@ -387,9 +387,9 @@ local function fetch_ingredient(ingredient)
                 return fetch_ingredient(ingredient)
             end
         end
-        return "Unable to locate %s":format(ingredient)
+        return ("Unable to locate %s"):format(ingredient)
     else
-        return "Unknown item %s":format(ingredient)
+        return ("Unknown item %s"):format(ingredient)
     end
 end
 
@@ -401,10 +401,10 @@ local function consume_food()
     inventory = windower.ffxi.get_items()
     local id, index = fetch_ingredient(food)
     if index then
-        windower.chat.input('/item \"%s\" <me>':format(food))
+        windower.chat.input(('/item \"%s\" <me>'):format(food))
         coroutine.sleep(3.5)
     else
-        warning("Unable to consume %s":format(food))
+        warning(("Unable to consume %s"):format(food))
     end
 end
 
@@ -448,13 +448,13 @@ local function build_recipe(item)
         for i, ingredient in pairs(recipe['ingredients']) do
             id, index = fetch_ingredient(ingredient)
             if not index then return id end
-            p["Ingredient %i":format(i)] = id
-            p["Ingredient Index %i":format(i)] = index
+            p[("Ingredient %i"):format(i)] = id
+            p[("Ingredient Index %i"):format(i)] = index
         end
         p['_unknown1'] = hash(p['Crystal'], p['Ingredient 1'], p['Ingredient count'])
         return p
     else
-        return "No recipe for %s":format(item)
+        return ("No recipe for %s"):format(item)
     end
 end
 
@@ -463,7 +463,7 @@ local function issue_synthesis(item)
     if type(p) == 'string' then
         skip_delay = true
         conditions['sort'] = false
-        return "%s - %s":format(item, p)
+        return ("%s - %s"):format(item, p)
     else
         packets.inject(p)
         conditions['sort'] = false
@@ -478,13 +478,13 @@ local function put_items(bag, id)
     local src = inventory['inventory']
     local dst = inventory[bag]
     local empty = {}
-    for index = 1, inventory['max_%s':format(bag)] do
+    for index = 1, inventory[('max_%s'):format(bag)] do
         if dst[index].count == 0 then
             empty[index] = true
         end
     end
     local idx, status = next(empty, nil)
-    for index = 1, inventory['max_inventory'] do
+    for index = 1, inventory[('max_%s'):format(bag)] do
         if (src[index].id == id) and idx then
             windower.ffxi.put_item(bags[bag], index, src[index].count)
             dst[idx].id = id
@@ -503,21 +503,21 @@ local function put(args)
     inventory = windower.ffxi.get_items()
     if args['bag'] then
         local bag = args['bag']
-        if not inventory['enabled_%s':format(bag)] then
+        if not inventory[('enabled_%s'):format(bag)] then
             block = false
-            return "bag %s disabled":format(bag)
+            return ("bag %s disabled"):format(bag)
         end
         put_items(bag, args['id'])
     else
         for bag, bag_id in pairs(bags) do
-            if inventory['enabled_%s':format(bag)] then
+            if inventory[('enabled_%s'):format(bag)] then
                 put_items(bag, args['id'])
             end
         end
     end
     if delta then
         delta = false
-        busy_wait('move', 10, 'moving %s':format(args['name']))
+        busy_wait('move', 10, ('moving %s'):format(args['name']))
     end
     conditions['sort'] = false
     coroutine.sleep(3.5)
@@ -581,10 +581,10 @@ end
 local function handle_delay(seconds)
     local n = tonumber(seconds)
     if n == nil then
-        return "Invalid delay %s":format(seconds)
+        return ("Invalid delay %s"):format(seconds)
     else
         n = math.max(17, n)
-        notice("Setting delay to %d":format(n))
+        notice(("Setting delay to %d"):format(n))
         delay = n
     end
 end
@@ -610,7 +610,7 @@ end
 
 local function handle_jiggle(key)
     if key then
-        notice("Setting jiggle to %s key":format(key))
+        notice(("Setting jiggle to %s key"):format(key))
         jiggle = key
     else
         notice("Removing jiggle")
@@ -622,9 +622,9 @@ local function handle_repeat(count)
     local count = count or 1
     local n = tonumber(count)
     if n == nil then
-        return "Invalid count %s":format(count)
+        return ("Invalid count %s"):format(count)
     end
-    notice("Adding %d repeat commands to the queue":format(count))
+    notice(("Adding %d repeat commands to the queue"):format(count))
     for i = 1, count do
         local item = {repeat_synthesis, nil}
         queue:push(item)
@@ -636,13 +636,13 @@ local function handle_make(item, count)
     local count = count or 1
     local n = tonumber(count)
     if n == nil then
-        return "Invalid count %s":format(count)
+        return ("Invalid count %s"):format(count)
     end
     local recipe = fetch_recipe(item)
     if not recipe then
-        return "No recipe for %s":format(item)
+        return ("No recipe for %s"):format(item)
     end
-    notice("Adding %d make %s commands to the queue":format(count, item))
+    notice(("Adding %d make %s commands to the queue"):format(count, item))
     for i = 1, count do
         local item = {issue_synthesis, item}
         queue:push(item)
@@ -658,10 +658,10 @@ local function handle_food(item)
         local search = res.items:name(item)
         local id, name = next(search, nil)
         if id then
-            notice("Setting auto food to %s":format(name.en))
+            notice(("Setting auto food to %s"):format(name.en))
             food = name.en
         else
-            return "Invalid food %s":format(item)
+            return ("Invalid food %s"):format(item)
         end
     end
 end
@@ -670,7 +670,7 @@ local function handle_put(ingredient, bag)
     if bag then
         bag = bag:lower()
         if not bags[bag] then
-            return "Unknown bag %s":format(bag)
+            return ("Unknown bag %s"):format(bag)
         end
     end
     local search = res.items:name(ingredient)
@@ -684,15 +684,15 @@ local function handle_put(ingredient, bag)
         }
         local item = {put, args}
         if bag then
-            msg = "%s %s":format(ingredient, bag)
+            msg = ("%s %s"):format(ingredient, bag)
         else
             msg = ingredient
         end
-        notice("Adding a put %s command to the queue":format(msg))
+        notice(("Adding a put %s command to the queue"):format(msg))
         queue:push(item)
         process_queue()
     else
-        return "Unknown item %s":format(ingredient)
+        return ("Unknown item %s"):format(ingredient)
     end
 end
 
@@ -725,14 +725,14 @@ end
 
 local function handle_find(query, details)
     local query = query:lower()
-    notice("Searching for recipes containing %s":format(query))
+    notice(("Searching for recipes containing %s"):format(query))
     for name, recipe in pairs(recipes) do
         if string.find(name:lower(), query) then
-            notice("Found recipe - \"%s\"":format(name))
+            notice(("Found recipe - \"%s\""):format(name))
             if details then
-                notice(" %s":format(recipe['crystal']))
+                notice((" %s"):format(recipe['crystal']))
                 for _, ingredient in pairs(recipe['ingredients']) do
-                    notice("  %s":format(ingredient))
+                    notice(("  %s"):format(ingredient))
                 end
             end
         end
@@ -776,7 +776,7 @@ local function handle_command(cmd, ...)
             error(msg)
         end
     else
-        error("Unknown command %s":format(cmd))
+        error(("Unknown command %s"):format(cmd))
     end
 end
 
@@ -794,17 +794,17 @@ windower.register_event('incoming chunk', function(id, original, modified, injec
             local item = res.items[p['Item']].english
             local count = p['Count']
 			if count > 1 then
-				windower.add_to_chat(121, 'You synthesized: \30\02%s\30\01 x%d.':format(item, count))
+				windower.add_to_chat(121, ("You synthesized: \30\02%s\30\01 x%d."):format(item, count))
 			else
-				windower.add_to_chat(121, 'You synthesized: \30\02%s\30\01.':format(item))
+				windower.add_to_chat(121, ("You synthesized: \30\02%s\30\01."):format(item))
 			end
             injected_synth = false	
         end
         if p['Result'] == 1 or p['Result'] == 5 then
-            windower.add_to_chat(121,'Your synthesis has failed and your crystal is lost.')
+            windower.add_to_chat(121, ("Your synthesis has failed and your crystal is lost."):format())
             for i=1, 8 do 
                 if p['Lost Item '..i] ~= 0 then 
-                    windower.add_to_chat(121, 'You lost: \30\02%s\30\01.':format(res.items[p['Lost Item '..i]].english)) 
+                    windower.add_to_chat(121, ("You lost: \30\02%s\30\01."):format(res.items[p['Lost Item '..i]].english))
                 end 
             end
             injected_synth = false

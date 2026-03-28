@@ -96,11 +96,11 @@ function update_box()
                 
                 if settings.mode == 'whitelist' and settings.whitelist:contains(name) or settings.mode == 'blacklist' and not settings.blacklist:contains(name) then
                     if settings.timers and remains > 0 then
-                        lines:append('\\cs(%s)%s: %.0f\\cr':format(get_color(spell.actor), name, remains))
+                        lines:append(("\\cs(%s)%s: %.0f\\cr"):format(get_color(spell.actor), name, remains))
                     elseif remains < 0 and settings.hide_below_zero then
                         debuffed_mobs[target.id][effect] = nil
                     else
-                        lines:append('\\cs(%s)%s\\cr':format(get_color(spell.actor), name))
+                        lines:append(("\\cs(%s)%s\\cr"):format(get_color(spell.actor), name))
                     end
                 end
             end
@@ -116,9 +116,9 @@ end
 
 function get_color(actor)
     if actor == player_id then
-        return '%s,%s,%s':format(settings.colors.player.red, settings.colors.player.green, settings.colors.player.blue)
+        return ("%s,%s,%s"):format(settings.colors.player.red, settings.colors.player.green, settings.colors.player.blue)
     else
-        return '%s,%s,%s':format(settings.colors.others.red, settings.colors.others.green, settings.colors.others.blue)
+        return ("%s,%s,%s"):format(settings.colors.others.red, settings.colors.others.green, settings.colors.others.blue)
     end
 end
 
@@ -264,19 +264,19 @@ windower.register_event('addon command', function(command1, command2, ...)
         else
             settings.mode = 'blacklist'
         end
-        log('Changed to %s mode.':format(settings.mode))
+        log(("Changed to %s mode."):format(settings.mode))
         settings:save()
     elseif command1 == 't' or command1 == 'timers' then
         settings.timers = not settings.timers
-        log('Timer display %s.':format(settings.timers and 'enabled' or 'disabled'))
+        log(("Timer display %s."):format(settings.timers and 'enabled' or 'disabled'))
         settings:save()
     elseif command1 == 'i' or command1 == 'interval' then
         settings.interval = tonumber(command2) or .1
-        log('Refresh interval set to %s seconds.':format(settings.interval))
+        log(("Refresh interval set to %s seconds."):format(settings.interval))
         settings:save()
     elseif command1 == 'h' or command1 == 'hide' then
         settings.hide_below_zero = not settings.hide_below_zero
-        log('Timers that reach 0 will be %s.':format(settings.hide_below_zero and 'hidden' or 'shown'))
+        log(("Timers that reach 0 will be %s."):format(settings.hide_below_zero and 'hidden' or 'shown'))
         settings:save()
     elseif list_commands:containskey(command1) then
         if sort_commands:containskey(command2) then
@@ -285,18 +285,18 @@ windower.register_event('addon command', function(command1, command2, ...)
             command2 = sort_commands[command2]
             
             if spell == nil then
-                error('No spells found that match: %s':format(name))
+                error(("No spells found that match: %s"):format(name))
             elseif command2 == 'add' then
                 settings[command1]:add(spell.name)
-                log('Added spell to %s: %s':format(command1, spell.name))
+                log(("Added spell to %s: %s"):format(command1, spell.name))
             else
                 settings[command1]:remove(spell.name)
-                log('Removed spell from %s: %s':format(command1, spell.name))
+                log(("Removed spell from %s: %s"):format(command1, spell.name))
             end
             settings:save()
         end
     else
-        print('%s (v%s)':format(_addon.name, _addon.version))
+        print(("%s (v%s)"):format(_addon.name, _addon.version))
         print('    \\cs(255,255,255)mode\\cr - Switches between blacklist and whitelist mode (default: blacklist)')
         print('    \\cs(255,255,255)timers\\cr - Toggles display of debuff timers (default: true)')
         print('    \\cs(255,255,255)interval <value>\\cr - Allows you to change the refresh interval (default: 0.1)')

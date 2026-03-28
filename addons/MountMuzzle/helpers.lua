@@ -29,26 +29,26 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 local colors = require("constants").colors
 
 function buildHelpCommandEntry(command, description)
-    local short_name = "mm":color(colors.primary)
+    local short_name = ("mm"):color(colors.primary)
     local command = command:color(colors.secondary)
-    local sep = "=>":color(colors.primary)
+    local sep = ("=>"):color(colors.primary)
     local description = description:color(colors.info)
     
-    return "%s %s %s %s":format(short_name, command, sep, description)
+    return ("%s %s %s %s"):format(short_name, command, sep, description)
 end
 
 function buildHelpTypeEntry(name, description)
     local name = name:color(colors.secondary)
-    local sep = "=>":color(colors.primary)
+    local sep = ("=>"):color(colors.primary)
     local description = description:color(colors.info)
     
-    return "%s %s %s":format(name, sep, description)
+    return ("%s %s %s"):format(name, sep, description)
 end
 
 function buildHelpTitle(context)
     local context = context:color(colors.danger)
     
-    return "%s Help: %s":color(colors.primary):format(_addon.name, context)
+    return ("%s Help: %s"):color(colors.primary):format(_addon.name, context)
 end
 
 function buildHelpSeperator(character, count)
@@ -70,7 +70,7 @@ function buildCommandResponse(message, success)
         response_color = colors.danger
     end
     
-    return "%s: %s":format(response_type:color(response_color), message)
+    return ("%s: %s"):format(response_type:color(response_color), message)
 end
 
 function displayResponse(response, color)

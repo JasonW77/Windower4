@@ -217,12 +217,12 @@ end
 windower.register_event('gain buff', 'lose buff', buff_active)
 
 function autoJA(str,ta)
-    windower.send_command('input /ja "%s" %s':format(str,ta))
+    windower.send_command(('input /ja "%s" %s'):format(str,ta))
     delay = JA_del
 end
 
 function autoWS(str)
-    windower.send_command('input /ws "%s" <t>':format(str))
+    windower.send_command(('input /ws "%s" <t>'):format(str))
     delay = WS_del
 end
 
@@ -284,7 +284,7 @@ windower.register_event('zone change',function()
 end)
 
 function addon_message(...)
-    windower.add_to_chat(0,'%s: %s':format(_addon.name,table.concat({...},', ')))
+    windower.add_to_chat(0,('%s: %s'):format(_addon.name,table.concat({...},', ')))
 end
 
 windower.register_event('addon command', function(...)

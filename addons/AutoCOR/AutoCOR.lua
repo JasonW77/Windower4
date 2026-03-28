@@ -60,13 +60,13 @@ rolls = T{
     }
 
 local display_box = function()
-    return 'AutoCOR [O%s]\nRoll 1 [%s]\nRoll 2 [%s]':format(actions and 'n' or 'ff',settings.roll[1],settings.roll[2])
+    return ('AutoCOR [O%s]\nRoll 1 [%s]\nRoll 2 [%s]'):format(actions and 'n' or 'ff',settings.roll[1],settings.roll[2])
 end
 
 cor_status = texts.new(display_box(),settings.text,setting)
 cor_status:show()
 
-last_coords = 'fff':pack(0,0,0)
+last_coords = ('fff'):pack(0,0,0)
 is_moving = false
 
 windower.register_event('outgoing chunk',function(id,data,modified,is_injected,is_blocked)
@@ -99,7 +99,7 @@ windower.register_event('prerender',function ()
                     if x == settings.crooked_cards and abil_recasts[96] and abil_recasts[96] == 0 then
                         use_JA('/ja "Crooked Cards" <me>')
                     else
-                        use_JA('/ja "%s" <me>':format(roll.en))
+                        use_JA(('/ja "%s" <me>'):format(roll.en))
                     end
                 end
                 return

@@ -43,8 +43,8 @@ default = {
     delay = 4.2,
     actions = false,
     active = true,
-    geo = 'Geo\-Precision',
-    indi = 'Indi\-Precision',
+    geo = 'Geo-Precision',
+    indi = 'Indi-Precision',
     entrust = {},
     min_ws_hp = 20,
     max_ws_hp = 99,
@@ -55,7 +55,7 @@ default = {
     }
 
 settings = config.load(default)
-last_coords = 'fff':pack(0,0,0)
+last_coords = ('fff'):pack(0,0,0)
 is_moving = false
 nexttime = os.clock()
 del = 0
@@ -145,21 +145,21 @@ display_box = function()
         str = ' AutoGEO [Off] '
     end
     if settings.active then
-        str = settings.geo and str..'\n %s ':format(settings.geo) or str
-        str = settings.indi and str..'\n %s ':format(settings.indi) or str
+        str = settings.geo and str..(('\n %s '):format(settings.geo)) or str
+        str = settings.indi and str..(('\n %s '):format(settings.indi)) or str
         if settings.entrust.target then
-            str = str..'\n Entrust: %s: \n  [%s] ':format(settings.entrust.target:ucfirst(),settings.entrust.ma)
+            str = str..(('\n Entrust: %s: \n  [%s] '):format(settings.entrust.target:ucfirst(),settings.entrust.ma))
         end
         for k,v in ipairs(settings.buffs.haste) do
-           str = str..'\n Haste:[%s]':format(v:ucfirst())
+           str = str..(('\n Haste:[%s]'):format(v:ucfirst()))
         end
         for k,v in ipairs(settings.buffs.refresh) do
-            str = str..'\n Refresh:[%s]':format(v:ucfirst())
+            str = str..(('\n Refresh:[%s]'):format(v:ucfirst()))
         end
         for k,v in pairs(settings.recast) do
-            str = str..'\n Recast %s:[%d-%d]':format(k:ucfirst(),v.min,v.max)
+            str = str..(('\n Recast %s:[%d-%d]'):format(k:ucfirst(),v.min,v.max))
         end
-        str = str..'\n Delay:[%d] ':format(settings.delay)
+        str = str..(('\n Delay:[%d] '):format(settings.delay))
     end
     return str
 end
@@ -261,10 +261,10 @@ function addon_command(...)
             settings.actions = false
         elseif commands[1] == 'entrust' and commands[2] then
             if commands[3] then
-                local spell = geo_spells:with('en','Indi\-'..commands[3]:ucfirst())
+                local spell = geo_spells:with('en','Indi-'..commands[3]:ucfirst())
                 if spell then
                     settings.entrust = {target=commands[2]:lower(),ma=spell.en}
-                    addon_message('Entrust %s with %s':format(commands[2],spell.en))
+                    addon_message(('Entrust %s with %s'):format(commands[2],spell.en))
                 else
                     addon_message('Invalid spell name.')
                 end
@@ -279,7 +279,7 @@ function addon_command(...)
             if commands[4] and tonumber(commands[4]) then
                 settings.recast[commands[2]]['max'] = tonumber(commands[4])
             end
-            addon_message('%s recast set to min: %s max: %s':format(commands[2],settings.recast[commands[2]]['min'],settings.recast[commands[2]]['max']))
+            addon_message(('%s recast set to min: %s max: %s'):format(commands[2],settings.recast[commands[2]]['min'],settings.recast[commands[2]]['max']))
         elseif S{'haste','refresh'}:contains(commands[1]) and commands[2] then
             local ind = settings.buffs[commands[1]]:find(commands[2])
             if not commands[3] then
@@ -295,30 +295,30 @@ function addon_command(...)
             end
         elseif commands[1] == 'aug' and settings.aug[commands[2]] and commands[3] and tonumber(commands[3]) then
             settings.aug['lifestream'] = tonumber(commands[3])
-            addon_message('Lifestream Cape = Indi eff. dur. +%s.':format(commands[3]))
+            addon_message(('Lifestream Cape = Indi eff. dur. +%s.'):format(commands[3]))
         elseif type(settings[commands[1]]) == 'string' and commands[2] then
             if commands[2] == 'off' then   
                 settings[commands[1]] = nil
-                addon_message('%s will not be used':format(commands[1]))
+                addon_message(('%s will not be used'):format(commands[1]))
             else
-                local spell = geo_spells:with('en',commands[1]:ucfirst()..'\-'..commands[2]:ucfirst())
+                local spell = geo_spells:with('en',commands[1]:ucfirst()..'-'..commands[2]:ucfirst())
                 if spell then
                     settings[commands[1]] = spell.en
-                    addon_message('%s set to %s':format(commands[1],commands[2]))
+                    addon_message(('%s set to %s'):format(commands[1],commands[2]))
                 else
                     addon_message('Invalid spell name.')
                 end
             end
         elseif type(settings[commands[1]]) == 'number' and commands[2] and tonumber(commands[2]) then
             settings[commands[1]] = tonumber(commands[2])
-            addon_message('%s is now set to %d':format(commands[1],settings[commands[1]]))  
+            addon_message(('%s is now set to %d'):format(commands[1],settings[commands[1]]))
         elseif type(settings[commands[1]]) == 'boolean' then
             if (not commands[2] and settings[commands[1]] == true) or (commands[2] and commands[2] == 'off') then
                 settings[commands[1]] = false
             elseif (not commands[2]) or (commands[2] and commands[2] == 'on') then
                 settings[commands[1]] = true
             end
-            addon_message('%s %s':format(commands[1],settings[commands[1]] and 'On' or 'Off'))
+            addon_message(('%s %s'):format(commands[1],settings[commands[1]] and 'On' or 'Off'))
         elseif commands[1] == 'save' then
             settings:save()
         elseif commands[1] == 'eval' then
@@ -340,12 +340,12 @@ function calculate_buffs(curbuffs)
 end
 
 function use_JA(str,ta)
-    windower.send_command('input /ja "%s" %s':format(str,ta))
+    windower.send_command(('input /ja "%s" %s'):format(str,ta))
     del = 1.2
 end
 
 function use_MA(str,ta)
-    windower.send_command('input /ma "%s" %s':format(str,ta))
+    windower.send_command(('input /ma "%s" %s'):format(str,ta))
     del = settings.delay
 end
 

@@ -113,7 +113,7 @@ function resolveCurrentMuzzle()
         current_muzzle = muzzles.silent.name
         setMuzzle(current_muzzle)
         displayResponse(
-            'Note: Muzzle found in settings was not valid and is now set to the default (%s).':format('Silent':color(colors.secondary)),
+            ('Note: Muzzle found in settings was not valid and is now set to the default (%s).'):format(('Silent'):color(colors.secondary)),
             colors.warn
         )
     end
@@ -206,19 +206,19 @@ windower.register_event('addon command', function(command, ...)
         else
             requestInject()
             setMuzzle(muzzle)
-            response_message = 'Updated current muzzle to %s.':format(muzzle:ucfirst():color(colors.secondary))
+            response_message = ('Updated current muzzle to %s.'):format(muzzle:ucfirst():color(colors.secondary))
         end
 
     elseif command == 'get' or command == 'g' then
         respond = true
-        response_message = 'Current muzzle is %s.':format(getMuzzle():ucfirst():color(colors.secondary))
+        response_message = ('Current muzzle is %s.'):format(getMuzzle():ucfirst():color(colors.secondary))
 
     elseif command == 'default' or command == 'd' then
         respond = true
         requestInject()
 
         setMuzzle(muzzles.silent.name)
-        response_message = 'Updated current muzzle to the default (%s).':format('Silent':color(colors.secondary))
+        response_message = ('Updated current muzzle to the default (%s).'):format(('Silent'):color(colors.secondary))
 
     elseif command == 'reload' or command == 'r' then
         windower.send_command('lua r mountmuzzle')

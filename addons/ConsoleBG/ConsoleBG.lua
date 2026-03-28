@@ -84,7 +84,7 @@ windower.register_event('addon command', function(command1, ...)
         end
 
     elseif command1 == 'help' then
-        print('%s v%s':format(_addon.name, _addon.version))
+        print(('%s v%s'):format(_addon.name, _addon.version))
         print('    \\cs(255,255,255)color  <values>\\cr - Changes background color and transparency Valid range: 0-255')
         print('    \\crExample:\\cs(255,255,255) color 255 0 1 2\\cr - Alpha: 255 Red: 0 Green: 1 Blue: 2')
         print('    \\cs(255,255,255)position <values>\\cr - Set anchor points')
