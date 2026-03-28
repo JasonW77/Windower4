@@ -4,119 +4,126 @@ To-Do Addon for Windower 4
 Author: Uncle Awesome
 Version: 1.9
 
-Description:
-------------
-A simple, user-friendly to-do list addon for Final Fantasy XI (via Windower 4).
-Now supports **personal and shared task lists in separate windows**, each with independent settings and titles.
-Manage tasks with customizable commands and a sleek, color-coded UI.
+Description
+-----------
+`todo` is a Windower 4 addon that tracks:
+- Personal tasks (per-character)
+- Shared tasks (cross-character)
+- Records of Eminence (RoE) objectives (active and completed)
 
-Features:
----------
+It displays these in three draggable windows with persistent position and font settings.
+
+Features
+--------
 - Personal tasks saved to: `data/<character>/tasks.txt`
 - Shared tasks saved to: `data/shared_tasks.txt`
-- Personal and shared tasks are shown in separate draggable windows
-- Window positions are automatically saved per character
-- Add, remove, complete, uncomplete, and share tasks using chat commands
-- Remove tasks from the shared list with a command
-- Set custom titles for each window
-- Customize font size and auto-display setting
-- Tasks are color-coded by type:
-  - Normal tasks: Sky Blue (135, 206, 235)
-  - Completed tasks: Steel Blue (70, 130, 180)
-  - Shared tasks: Lime Green (50, 205, 50)
-- Automatically creates folders and saves per-character settings
+- RoE objective names/metadata loaded from: `data/RoE.csv`
+- Three separate windows:
+  - Personal Tasks
+  - Shared Tasks
+  - RoE Checklist
+- Color-coded task states and RoE sections
+- Add/remove/complete/uncomplete for personal and shared tasks
+- Share a personal task into the shared list
+- Font size control globally or by specific window
+- Per-character persistent settings (position, visibility on login, titles, fonts)
 
-Installation:
--------------
-1. Place `todo.lua` in your Windower `addons/todo/` folder.
-2. Create a `data` folder inside the addon folder if it doesn't exist.
-3. Windower will automatically create per-character directories and files on use.
+Installation
+------------
+1. Put this addon in `addons/todo/`.
+2. Ensure `addons/todo/data/RoE.csv` exists (required for RoE objective names/categories).
+3. Load in game with:
+   - `//lua load todo`
 
-Usage:
-------
-Commands are entered in the game chat:
+Usage
+-----
+Primary command alias from the addon is `//td`.
 
-  //todo start
-    - Show both personal and shared to-do list windows.
+Examples below use `//td`:
 
-  //todo stop
-    - Hide both windows.
+- `//td start`
+  - Shows Personal, Shared, and RoE windows.
 
-  //todo add|a <task description>
-    - Add a task to your personal list.
-    Example:
-      `//todo add Farm Beastcoins in Dynamis`
+- `//td stop`
+  - Hides all three windows.
 
-  //todo remove|r <index>
-    - Remove the task at the given index number from your personal list.
-    Example:
-      `//todo r 2`
+- `//td add|a <task>`
+  - Add a personal task.
 
-  //todo complete|c <index>
-    - Mark a personal task as completed. Adds `[X]` and colors it blue.
-    Example:
-      `//todo c 4`
+- `//td remove|r <index>`
+  - Remove a personal task by index.
 
-  //todo uncomplete|uc <index>
-    - Remove the `[X]` from a personal task and revert its status.
-    Example:
-      `//todo uc 4`
+- `//td complete|c <index>`
+  - Mark a personal task complete (`[X]`).
 
-  //todo share <index>
-    - Share a personal task to the shared list. It will appear as a green `[shared]` entry.
-    Example:
-      `//todo share 3`
+- `//td uncomplete|uc <index>`
+  - Remove completion marker from a personal task.
 
-  //todo removeshared|rs <index>
-    - Remove a task from the shared list at the given index.
-    Example:
-      `//todo rs 2`
+- `//td addshared|as <task>`
+  - Add a shared task.
 
-  //todo fontsize|fs <6-48>
-    - Set the font size for both windows.
-    Example:
-      `//todo fs 16`
+- `//td removeshared|rs <index>`
+  - Remove a shared task by index.
 
-  //todo setautostart|as true|false
-    - Automatically show the lists on character login.
-    Example:
-      `//todo as true`
+- `//td completeshared|cs <index>`
+  - Mark a shared task complete (`[X]`).
 
-  //todo title|t <personal|shared> "New Title"
-    - Set a custom title for the personal or shared list window.
-    Example:
-      `//todo t personal "Hero's Journal"`
-      `//todo t shared "Guild Missions"`
+- `//td uncompleteshared|ucs <index>`
+  - Remove completion marker from a shared task.
 
-Color Key:
-----------
-- [shared] Task = Lime Green (50, 205, 50)
-- [X] Completed Task = Steel Blue (70, 130, 180)
-- Normal Task = Sky Blue (135, 206, 235)
+- `//td share <index>`
+  - Copy a personal task into shared tasks (without `[X]` prefix).
 
-Behavior Notes:
----------------
-- Shared and personal tasks are displayed in separate windows for clarity.
-- Shared tasks are not duplicated if already present.
-- Tasks are saved immediately after modification.
-- Window positions, titles, and font size are saved per character.
-- The `//todo loadshared` command has been deprecated.
+- `//td fontsize|fs`
+  - Display current font sizes.
 
-Requirements:
--------------
+- `//td fontsize|fs <6-15>`
+  - Set font size for all windows.
+
+- `//td fontsize|fs <personal|shared|roe> <6-15>`
+  - Set font size for one specific window.
+
+- `//td setautostart|sas true|false`
+  - Control whether windows appear on login.
+
+- `//td title|t <personal|shared> "New Title"`
+  - Rename personal/shared window titles.
+
+RoE Display Behavior
+--------------------
+- Reads active RoE objectives from packet `0x111`
+- Reads completed RoE objectives from packet `0x112`
+- Uses `RoE.csv` flags to categorize objectives into sections:
+  - Repeatable
+  - Unity
+  - Daily
+  - Timed
+  - Retroactive
+  - Other
+- Objectives are sorted alphabetically by name in each section.
+
+Color Notes
+-----------
+- Personal normal tasks: Sky Blue
+- Shared normal tasks: Green
+- Completed tasks (`[X]`): Steel Blue
+- RoE section headers: distinct colors per category
+
+Behavior Notes
+--------------
+- Task files are saved immediately after changes.
+- Character directory is auto-created when needed.
+- Window positions are persisted while visible.
+- RoE title defaults to `RoE Checklist` via settings.
+- `title` command currently supports only personal/shared windows.
+
+Requirements
+------------
 - Windower 4
-- Lua 5.1 (included with Windower)
-- Default system font: Arial
+- Lua 5.1 (bundled with Windower)
 
-Support:
---------
-Report issues, request features, or send suggestions to Uncle Awesome.
-(Optional: link to GitHub repo or Discord)
-
-License:
---------
-This project is licensed under the MIT License.
-
+License
+-------
 MIT License
 
 Copyright (c) 2025 Uncle Awesome
@@ -138,7 +145,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-
----
-
-Enjoy efficient task tracking with the To-Do Addon for Windower!
