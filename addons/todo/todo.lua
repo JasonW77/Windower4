@@ -353,12 +353,12 @@ local function update_boxes()
         return section_output
     end
 
-    roe_output = roe_output .. append_complete_section("Completed Repeatable Objectives", complete_repeatable, "(173,216,230)")
-    roe_output = roe_output .. append_complete_section("Completed Unity Objectives", complete_unity, "(144,238,144)")
-    roe_output = roe_output .. append_complete_section("Completed Daily Objectives", complete_daily, "(255,255,0)")
-    roe_output = roe_output .. append_complete_section("Completed Timed Objectives", complete_timed, "(255,192,203)")
-    roe_output = roe_output .. append_complete_section("Completed Retroactive Objectives", complete_retro, "(255,99,71)")
-    roe_output = roe_output .. append_complete_section("Completed Other Objectives", complete_other, "(255,165,0)")
+    -- roe_output = roe_output .. append_complete_section("Completed Repeatable Objectives", complete_repeatable, "(173,216,230)")
+    -- roe_output = roe_output .. append_complete_section("Completed Unity Objectives", complete_unity, "(144,238,144)")
+    -- roe_output = roe_output .. append_complete_section("Completed Daily Objectives", complete_daily, "(255,255,0)")
+    -- roe_output = roe_output .. append_complete_section("Completed Timed Objectives", complete_timed, "(255,192,203)")
+    -- roe_output = roe_output .. append_complete_section("Completed Retroactive Objectives", complete_retro, "(255,99,71)")
+    -- roe_output = roe_output .. append_complete_section("Completed Other Objectives", complete_other, "(255,165,0)")
 
     -- if not next(_roe_complete) then
     --     roe_output = roe_output .. "\n\\cs(255,255,255)No completed RoE objectives.\\cr\n"
