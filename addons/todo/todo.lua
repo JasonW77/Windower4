@@ -85,6 +85,22 @@ local function get_roe_name(id)
     return "ID: " .. tostring(id)
 end
 
+local function shorten_roe_name(name)
+    if not name or name == "" then
+        return name
+    end
+
+    if name:match("^Total Successful") then
+        return (name:gsub("^Total Successful", "TS", 1))
+    end
+
+    if name:match("^Vanquish") then
+        return (name:gsub("^Vanquish", "VQ", 1))
+    end
+
+    return name
+end
+
 local function load_roe_data()
     local path = windower.addon_path .. 'data/RoE.csv'
     local f = io.open(path, "r")
@@ -243,7 +259,13 @@ local function update_boxes()
     local function sort_roe_objectives(objectives_table)
         local sorted_objectives = {}
         for id, progress in pairs(objectives_table) do
-            table.insert(sorted_objectives, {id = id, progress = progress, name = get_roe_name(id)})
+            local full_name = get_roe_name(id)
+            table.insert(sorted_objectives, {
+                id = id,
+                progress = progress,
+                name = full_name,
+                display_name = shorten_roe_name(full_name)
+            })
         end
 
         table.sort(sorted_objectives, function(a, b)
@@ -301,7 +323,7 @@ local function update_boxes()
             section_output = section_output .. string.format("\n\\cs%s--- %s ---\\cr\n", color, title)
             local sorted_objectives = sort_roe_objectives(objectives_table)
             for _, obj in ipairs(sorted_objectives) do
-                section_output = section_output .. string.format("  -> \\cs(255,255,255)%s - Progress: %s\\cr\n", obj.name, tostring(obj.progress))
+                section_output = section_output .. string.format("  -> \\cs(255,255,255)%s - Progress: %s\\cr\n", obj.display_name or obj.name, tostring(obj.progress))
             end
         end
         return section_output
@@ -347,7 +369,7 @@ local function update_boxes()
             section_output = section_output .. string.format("\n\\cs%s--- %s ---\\cr\n", color, title)
             local sorted_objectives = sort_roe_objectives(objectives_table)
             for _, obj in ipairs(sorted_objectives) do
-                section_output = section_output .. string.format("  ✓ \\cs(255,255,255)%s\\cr\n", obj.name)
+                section_output = section_output .. string.format("  ✓ \\cs(255,255,255)%s\\cr\n", obj.display_name or obj.name)
             end
         end
         return section_output
